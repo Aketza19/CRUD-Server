@@ -41,7 +41,7 @@ public class OrderProduct implements Serializable {
      */
     @ManyToOne
     private Product product;
-    private Float total_price;
+    private Double total_price;
     private Integer total_quantity;
 
  
@@ -72,11 +72,11 @@ public class OrderProduct implements Serializable {
         this.product = product;
     }
 
-     public Float getTotal_price() {
+    public Double getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(Float total_price) {
+    public void setTotal_price(Double total_price) {
         this.total_price = total_price;
     }
 
@@ -91,6 +91,7 @@ public class OrderProduct implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -109,21 +110,13 @@ public class OrderProduct implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.order, other.order)) {
-            return false;
-        }
-        if (!Objects.equals(this.product, other.product)) {
-            return false;
-        }
-        if (!Objects.equals(this.total_price, other.total_price)) {
-            return false;
-        }
-        if (!Objects.equals(this.total_quantity, other.total_quantity)) {
-            return false;
-        }
         return true;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "OrderProduct{" + "id=" + id + '}';
+    }
+
+   
 }

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.Id;
@@ -32,57 +33,16 @@ public class Order implements Serializable{
     @Id
     private Integer id;
     private Timestamp date;
-    private Float total_price;
+    private Double total_price;
+    
     //Pregunta Enumtype: ¿Ordinal o String?
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
  
-    // 
+    //Define the relation to OrderProduct table. 
     @OneToMany(mappedBy="order", cascade=(MERGE), fetch=EAGER)
     private Set<OrderProduct> orders;
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 13 * hash + Objects.hashCode(this.id);
-        hash = 13 * hash + Objects.hashCode(this.date);
-        hash = 13 * hash + Objects.hashCode(this.total_price);
-        hash = 13 * hash + Objects.hashCode(this.status);
-        hash = 13 * hash + Objects.hashCode(this.orders);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Order other = (Order) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        if (!Objects.equals(this.total_price, other.total_price)) {
-            return false;
-        }
-        if (this.status != other.status) {
-            return false;
-        }
-        if (!Objects.equals(this.orders, other.orders)) {
-            return false;
-        }
-        return true;
-    }
-
-    
     //Getters and setters
     public Integer getId() {
         return id;
@@ -92,11 +52,11 @@ public class Order implements Serializable{
         this.id = id;
     }
 
-    public Float getTotal_price() {
+    public Double getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(Float total_price) {
+    public void setTotal_price(Double total_price) {
         this.total_price = total_price;
     }
 
@@ -123,7 +83,35 @@ public class Order implements Serializable{
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Order other = (Order) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + '}';
+    }
     
 }
