@@ -2,7 +2,6 @@ package myapplication.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Enumeration;
 import java.util.Objects;
 import java.util.Set;
 import static javax.persistence.CascadeType.MERGE;
@@ -10,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import static javax.persistence.FetchType.EAGER;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,6 +32,7 @@ public class Order implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Timestamp date;
     private Double total_price;
