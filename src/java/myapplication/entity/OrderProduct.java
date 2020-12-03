@@ -3,6 +3,7 @@ package myapplication.entity;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -12,12 +13,14 @@ import javax.persistence.Table;
  * @author Imanol
  */
 
-@Table(name="OrderProduct",schema="almazon")
+
 /**
  *  Class containing all the orders and the products of which it consists. 
  *  It contains the following fields: order identification, product identification, 
  *  total price of the order and total quantity of products.
  */
+@Entity
+@Table(name="OrderProduct",schema="almazon")
 public class OrderProduct implements Serializable {
     
     private static final long serialVersionUID = 1L;

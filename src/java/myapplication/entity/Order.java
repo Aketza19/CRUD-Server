@@ -21,12 +21,12 @@ import javax.persistence.Table;
  */
 
 
-@Entity
-@Table(name="Order",schema="almazon")
 /**
  *  Class containing all the orders and the products of which it consists. It contains the following fields: 
  *  order identification, product identification, total price of the order and total quantity of products.
  */
+@Entity
+@Table(name="Order",schema="almazon")
 public class Order implements Serializable{
     
     private static final long serialVersionUID = 1L;
