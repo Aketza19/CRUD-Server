@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +46,10 @@ public class User implements Serializable {
     private Timestamp lastAccess;
     @NotNull
     private Timestamp lastPasswordChange;
+    
+    @ManyToOne()
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     public String getUsername() {
         return username;
@@ -117,9 +123,6 @@ public class User implements Serializable {
         this.lastPasswordChange = lastPasswordChange;
     }
 
-    
-    
-    
     public Long getId() {
         return id;
     }
