@@ -9,66 +9,144 @@ import java.io.Serializable;
 import java.util.Set;
 import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Entity representing products that a company have.
+ * fields: id, weight, price, name
  * @author Aketza
  */
 @Entity
-@Table(name="product", schema="almazon")
+@Table(name = "product", schema = "almazon")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * Identification field for the product.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    /**
+     * The weight of the product.
+     */
     @NotNull
     private float weight;
+    /**
+     * The price of the product.
+     */
     @NotNull
     private double price;
+    /**
+     * The name of the product.
+     */
     @NotNull
     private String name;
 
-    public float getWeight() {
-        return weight;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
+    /**
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id the id to be set
+     */
     public void setId(Integer id) {
         this.id = id;
     }
-    @OneToMany (cascade=MERGE, mappedBy="product")
-    private Set <OrderProduct> products;
+
+    /**
+     *
+     * @return the weight
+     */
+    public float getWeight() {
+        return weight;
+    }
+
+    /**
+     *
+     * @param weight the weight to be set
+     */
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    /**
+     *
+     * @return the price
+     */
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     *
+     * @param price the price to be set
+     */
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    /**
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @param name the name to be set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * The relational field which contains the products in a order.
+     *
+     * @return the products
+     */
+    public Set<OrderProduct> getProducts() {
+        return products;
+    }
+
+    /**
+     * The relational field which contains the products in a order.
+     *
+     * @param products the products to be set
+     */
+    public void setProducts(Set<OrderProduct> products) {
+        this.products = products;
+    }
+    /**
+     * The relational field which contains the list of products in an order.
+     */
+    @OneToMany(cascade = MERGE, mappedBy = "product", fetch = EAGER)
+    private Set<OrderProduct> products;
+    /**
+     * User for the product.
+     */
+    @ManyToOne
+    private User user;
+
+    /**
+     * Integer representation for Product instance.
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -76,6 +154,12 @@ public class Product implements Serializable {
         return hash;
     }
 
+    /**
+     * Compares two Products objects for equality.
+     *
+     * @param object The other Product object to compare to.
+     * @return true if ids are equals.
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -89,9 +173,14 @@ public class Product implements Serializable {
         return true;
     }
 
+    /**
+     * Obtains a string representation of the Product.
+     *
+     * @return The String representing the Product.
+     */
     @Override
     public String toString() {
         return "myapplication.entity.Product[ id=" + id + " ]";
     }
-    
+
 }
