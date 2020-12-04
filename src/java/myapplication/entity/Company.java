@@ -56,7 +56,7 @@ public class Company implements Serializable {
     /**
      * Relational field containing the list of users on the company.
      */
-    @OneToMany(mappedBy = "user", fetch = EAGER)
+    @OneToMany(mappedBy = "company", fetch = EAGER)
     private Set<User> users;
 
     /**
