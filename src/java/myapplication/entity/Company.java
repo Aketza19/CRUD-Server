@@ -12,6 +12,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity representating the Companies. It contains the following fields:
@@ -22,6 +24,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @Table(name = "company", schema = "almazon")
+@XmlRootElement
 public class Company implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -145,6 +148,7 @@ public class Company implements Serializable {
      *
      * @return the users.
      */
+    @XmlTransient
     public Set<User> getUsers() {
         return users;
     }

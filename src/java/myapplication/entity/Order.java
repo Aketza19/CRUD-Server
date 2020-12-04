@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Order",schema="almazon")
+@XmlRootElement
 public class Order implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -62,6 +65,7 @@ public class Order implements Serializable{
         this.total_price = total_price;
     }
 
+    @XmlTransient
     public Set<OrderProduct> getOrders() {
         return orders;
     }
