@@ -51,7 +51,6 @@ public class User implements Serializable {
     private Timestamp lastPasswordChange;
     
     @ManyToOne()
-    @JoinColumn(name = "company_id")
     private Company company;
     
      @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
