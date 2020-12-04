@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="OrderProduct",schema="almazon")
+@XmlRootElement
 public class OrderProduct implements Serializable {
     
     private static final long serialVersionUID = 1L;

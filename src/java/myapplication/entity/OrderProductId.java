@@ -1,5 +1,7 @@
 package myapplication.entity;
 
+import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
@@ -14,7 +16,9 @@ import javax.persistence.Embeddable;
 
 //Makes the entity embeddable 
 @Embeddable
-public class OrderProductId {
+public class OrderProductId implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
     
     //Identification field for the order
     private Integer orderId;
@@ -47,6 +51,38 @@ public class OrderProductId {
 
     public void setProductId(Integer productId) {
         this.productId = productId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OrderProductId other = (OrderProductId) obj;
+        if (!Objects.equals(this.orderId, other.orderId)) {
+            return false;
+        }
+        if (!Objects.equals(this.productId, other.productId)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderProductId{" + "orderId=" + orderId + ", productId=" + productId + '}';
     }
     
     
