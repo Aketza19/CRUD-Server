@@ -10,6 +10,8 @@ import java.security.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,21 +41,25 @@ public class User implements Serializable {
     private String name;
     @NotNull
     private String surname;
+
+    @Enumerated(EnumType.STRING)
     @NotNull
-    private Boolean status;
+    private UserStatus status;
+
+    @Enumerated(EnumType.STRING)
     @NotNull
-    private Boolean privilege;
+    private UserPrivilege privilege;
     @NotNull
     private String password;
     @NotNull
     private Timestamp lastAccess;
     @NotNull
     private Timestamp lastPasswordChange;
-    
+
     @ManyToOne()
     private Company company;
-    
-     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 
     public String getUsername() {
@@ -88,19 +94,19 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public Boolean getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
-    public Boolean getPrivilege() {
+    public UserPrivilege getPrivilege() {
         return privilege;
     }
 
-    public void setPrivilege(Boolean privilege) {
+    public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
     }
 
