@@ -26,7 +26,7 @@ import myapplication.entity.Company;
  */
 @Stateless
 @Path("myapplication.entity.company")
-public class CompanyFacadeREST extends AbstractFacade<Company> {
+public class CompanyFacadeREST extends CompanyAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
@@ -58,12 +58,8 @@ public class CompanyFacadeREST extends AbstractFacade<Company> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Company find(@PathParam("id") Integer id) {
+
         return super.find(id);
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
 }

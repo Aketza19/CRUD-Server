@@ -25,7 +25,7 @@ import myapplication.entity.Order;
  * @author 2dam
  */
 @Stateless
-@Path("myapplication.entity.order")
+@Path("order")
 public class OrderFacadeREST extends AbstractFacade<Order> {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
@@ -61,9 +61,4 @@ public class OrderFacadeREST extends AbstractFacade<Order> {
         return super.find(id);
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
 }

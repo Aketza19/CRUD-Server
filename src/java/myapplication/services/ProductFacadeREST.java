@@ -61,9 +61,4 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
         return super.find(id);
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
 }

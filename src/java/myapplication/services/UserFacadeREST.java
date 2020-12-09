@@ -61,9 +61,4 @@ public class UserFacadeREST extends AbstractFacade<User> {
         return super.find(id);
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
 }
