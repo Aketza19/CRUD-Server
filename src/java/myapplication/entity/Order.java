@@ -12,6 +12,7 @@ import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,6 +49,17 @@ public class Order implements Serializable{
     @OneToMany(mappedBy="order", cascade=(MERGE), fetch=EAGER)
     private Set<OrderProduct> orders;
 
+    @ManyToOne
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     //Getters and setters
     public Integer getId() {
         return id;
