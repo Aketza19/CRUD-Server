@@ -7,9 +7,11 @@ package myapplication.services;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * TODO: add exception and queries
+ *
  * @author 2dam
  */
 public abstract class AbstractFacade<T> {
@@ -20,22 +22,23 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-    protected abstract EntityManager getEntityManager();
+    @PersistenceContext(unitName = "CRUD-ServerPU")
+    protected EntityManager em;
 
     public void create(T entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
     }
 
     public void edit(T entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        em.remove(em.merge(entity));
     }
 
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        return em.find(entityClass, id);
     }
 
 }

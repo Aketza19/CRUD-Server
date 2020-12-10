@@ -5,7 +5,6 @@
  */
 package myapplication.services;
 
-import javax.persistence.EntityManager;
 import myapplication.entity.Company;
 
 /**
@@ -21,6 +20,6 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
     public CompanyAbstractFacade(Class<Company> entityClass) {
         super(entityClass);
     }
-    
-    
+   
+      
 }

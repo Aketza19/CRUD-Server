@@ -6,6 +6,7 @@
 package myapplication.services;
 
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,7 +27,7 @@ import myapplication.entity.Order;
  */
 @Stateless
 @Path("order")
-public class OrderFacadeREST extends AbstractFacade<Order> {
+public class OrderFacadeREST extends OrderAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
@@ -59,6 +60,13 @@ public class OrderFacadeREST extends AbstractFacade<Order> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Order find(@PathParam("id") Integer id) {
         return super.find(id);
+    }
+    
+    @GET
+    @Path("order")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Order> find() {
+        return super.findAllOrders();
     }
 
 }

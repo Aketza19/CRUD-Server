@@ -5,16 +5,22 @@
  */
 package myapplication.services;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import myapplication.entity.Order;
 
 /**
  *
  * @author 2dam
  */
-public abstract class OrderAbstractFacade extends AbstractFacade<Order>{
-    
+public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
+
     public OrderAbstractFacade(Class<Order> entityClass) {
         super(entityClass);
     }
-    
+
+    public List<Order> findAllOrders() {
+        return em.createNamedQuery("findAllOrders").getResultList();
+    }
 }
