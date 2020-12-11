@@ -7,9 +7,11 @@ package myapplication.services;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * TODO: add exception and queries
+ *
  * @author 2dam
  */
 public abstract class AbstractFacade<T> {
