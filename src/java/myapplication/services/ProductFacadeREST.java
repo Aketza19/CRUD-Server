@@ -25,7 +25,7 @@ import myapplication.entity.Product;
  * @author 2dam
  */
 @Stateless
-@Path("myapplication.entity.product")
+@Path("product")
 public class ProductFacadeREST extends AbstractFacade<Product> {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
@@ -61,4 +61,8 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
         return super.find(id);
     }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

@@ -27,7 +27,7 @@ import myapplication.entity.OrderProductId;
  * @author 2dam
  */
 @Stateless
-@Path("myapplication.entity.orderproduct")
+@Path("orderproduct")
 public class OrderProductFacadeREST extends AbstractFacade<OrderProduct> {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
@@ -84,6 +84,11 @@ public class OrderProductFacadeREST extends AbstractFacade<OrderProduct> {
     public OrderProduct find(@PathParam("id") PathSegment id) {
         myapplication.entity.OrderProductId key = getPrimaryKey(id);
         return super.find(key);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
 }

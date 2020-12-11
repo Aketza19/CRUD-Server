@@ -25,7 +25,7 @@ import myapplication.entity.Company;
  * @author 2dam
  */
 @Stateless
-@Path("myapplication.entity.company")
+@Path("company")
 public class CompanyFacadeREST extends CompanyAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
@@ -60,6 +60,11 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     public Company find(@PathParam("id") Integer id) {
 
         return super.find(id);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
 }

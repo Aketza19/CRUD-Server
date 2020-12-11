@@ -25,7 +25,7 @@ import myapplication.entity.User;
  * @author 2dam
  */
 @Stateless
-@Path("myapplication.entity.user")
+@Path("user")
 public class UserFacadeREST extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
@@ -61,4 +61,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
         return super.find(id);
     }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

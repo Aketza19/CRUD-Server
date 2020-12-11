@@ -69,4 +69,8 @@ public class OrderFacadeREST extends OrderAbstractFacade {
         return super.findAllOrders();
     }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

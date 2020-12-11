@@ -22,23 +22,22 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-    @PersistenceContext(unitName = "CRUD-ServerPU")
-    protected EntityManager em;
+    protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
-        em.persist(entity);
+        getEntityManager().persist(entity);
     }
 
     public void edit(T entity) {
-        em.merge(entity);
+        getEntityManager().merge(entity);
     }
 
     public void remove(T entity) {
-        em.remove(em.merge(entity));
+        getEntityManager().remove(getEntityManager().merge(entity));
     }
 
     public T find(Object id) {
-        return em.find(entityClass, id);
+        return getEntityManager().find(entityClass, id);
     }
 
 }

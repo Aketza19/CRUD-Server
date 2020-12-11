@@ -13,13 +13,11 @@ import myapplication.entity.Company;
  */
 public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
 
-    public CompanyAbstractFacade() {
-        super(null);
-    }
-
     public CompanyAbstractFacade(Class<Company> entityClass) {
         super(entityClass);
     }
+
+    
    
-      
+    
 }
