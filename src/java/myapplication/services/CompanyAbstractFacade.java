@@ -5,6 +5,7 @@
  */
 package myapplication.services;
 
+import java.util.List;
 import myapplication.entity.Company;
 
 /**
@@ -17,7 +18,8 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
         super(entityClass);
     }
 
-    
-   
-    
+    public List<Company> findAllCompanies() {
+        return getEntityManager().createNamedQuery("findAllCompanies").getResultList();
+    }
+
 }

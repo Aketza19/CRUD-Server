@@ -62,6 +62,13 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         return super.find(id);
     }
 
+    @GET
+    @Path("findAllCompanies")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Company> findAllCompanies() {
+        return super.findAllCompanies();
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
