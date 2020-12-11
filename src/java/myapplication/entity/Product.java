@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "product", schema = "almazon")
+@NamedQueries({
+@NamedQuery (name ="findProductInOrder", query="SELECT p FROM Product p, Order o, OrderProduct op WHERE p.id=op.product and o.id=op.order GROUP BY o.id"),
+@NamedQuery (name ="findAllProducts" , query="SELECT p FROM Product p")
+})
 @XmlRootElement
 public class Product implements Serializable {
 

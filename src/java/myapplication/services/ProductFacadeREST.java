@@ -5,7 +5,9 @@
  */
 package myapplication.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -60,6 +62,23 @@ public class ProductFacadeREST extends ProductAbstractFacade {
     public Product find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    @GET
+    @Path("findProductInOrder")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Product> findProductInOrder() {
+        Set<Product> resultado = null;
+        resultado=new HashSet<>(em.createNamedQuery("findProductInOrder").getResultList());
+        return resultado;
+    } 
+    
+    @GET
+    @Path("findAllProducts")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Product> findAllProducts() {
+        Set<Product> resultado = null;
+        resultado=new HashSet<>(em.createNamedQuery("findAllProducts").getResultList());
+        return resultado;
+    } 
 
     @Override
     protected EntityManager getEntityManager() {
