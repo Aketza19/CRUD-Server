@@ -22,7 +22,7 @@ import myapplication.entity.Company;
 
 /**
  *
- * @author 2dam
+ * @author Iker de la Cruz
  */
 @Stateless
 @Path("company")
@@ -67,6 +67,13 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Company> findAllCompanies() {
         return super.findAllCompanies();
+    }
+    
+    @GET
+    @Path("amountByCompany")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public int amountByCompany() {
+        return super.amountByCompany();
     }
 
     @Override

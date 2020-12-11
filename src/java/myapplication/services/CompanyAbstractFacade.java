@@ -10,7 +10,7 @@ import myapplication.entity.Company;
 
 /**
  *
- * @author 2dam
+ * @author Iker de la Cruz
  */
 public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
 
@@ -20,6 +20,10 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
 
     public List<Company> findAllCompanies() {
         return getEntityManager().createNamedQuery("findAllCompanies").getResultList();
+    }
+
+    public int amountByCompany() {
+        return getEntityManager().createNamedQuery("amountByCompany").getMaxResults();
     }
 
 }

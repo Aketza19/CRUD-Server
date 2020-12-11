@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import static javax.persistence.FetchType.EAGER;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,7 +26,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "company", schema = "almazon")
-@NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c")
+@NamedQueries({
+        @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
+        @NamedQuery(name = "amountByCompany", query = "SELECT c FROM Company c")})
 @XmlRootElement
 public class Company implements Serializable {
 
