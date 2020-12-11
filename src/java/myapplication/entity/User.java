@@ -54,13 +54,15 @@ public class User implements Serializable {
     private UserPrivilege privilege;
     @NotNull
     private String password;
+    @NotNull
     private Timestamp lastAccess;
+    @NotNull
     private Timestamp lastPasswordChange;
 
     @ManyToOne()
     private Company company;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

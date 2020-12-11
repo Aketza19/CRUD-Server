@@ -26,7 +26,7 @@ import myapplication.entity.User;
  */
 @Stateless
 @Path("user")
-public class UserFacadeREST extends AbstractFacade<User> {
+public class UserFacadeREST extends UserAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;

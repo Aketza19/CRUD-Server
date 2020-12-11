@@ -52,10 +52,6 @@ public class Company implements Serializable {
      */
     private String localization;
 
-    /**
-     * The amount of users of the Company.
-     */
-    private Integer n_users;
 
     /**
      * Relational field containing the list of users on the company.
@@ -125,22 +121,6 @@ public class Company implements Serializable {
      */
     public void setLocalization(String localization) {
         this.localization = localization;
-    }
-
-    /**
-     *
-     * @return the amount of users.
-     */
-    public Integer getN_users() {
-        return n_users;
-    }
-
-    /**
-     *
-     * @param n_users the amount of users to set.
-     */
-    public void setN_users(Integer n_users) {
-        this.n_users = n_users;
     }
 
     /**
