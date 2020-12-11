@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,31 +23,31 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Imanol
  */
-
-
 /**
- *  Class containing all the orders and the products of which it consists. It contains the following fields: 
- *  order identification, product identification, total price of the order and total quantity of products.
+ * Class containing all the orders and the products of which it consists. It
+ * contains the following fields: order identification, product identification,
+ * total price of the order and total quantity of products.
  */
 @Entity
-@Table(name="Order",schema="almazon")
+@NamedQuery(name="findAllOrders",query="SELECT o FROM Order o")
+@Table(name = "Order", schema = "almazon")
 @XmlRootElement
-public class Order implements Serializable{
-    
+public class Order implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Timestamp date;
     private Double total_price;
-    
+
     //Pregunta Enumtype: ¿Ordinal o String?
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
- 
+
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy="order", cascade=(MERGE), fetch=EAGER)
+    @OneToMany(mappedBy = "order", cascade = (MERGE), fetch = EAGER)
     private Set<OrderProduct> orders;
 
     @ManyToOne
@@ -59,7 +60,7 @@ public class Order implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     //Getters and setters
     public Integer getId() {
         return id;
@@ -85,7 +86,7 @@ public class Order implements Serializable{
     public void setOrders(Set<OrderProduct> orders) {
         this.orders = orders;
     }
-    
+
     public Timestamp getDate() {
         return date;
     }
@@ -131,5 +132,5 @@ public class Order implements Serializable{
     public String toString() {
         return "Order{" + "id=" + id + '}';
     }
-    
+
 }
