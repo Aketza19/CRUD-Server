@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *  total price of the order and total quantity of products.
  */
 @Entity
-@Table(name="OrderProduct",schema="almazon")
+@Table(name="orderProduct",schema="almazon")
 @XmlRootElement
 public class OrderProduct implements Serializable {
     

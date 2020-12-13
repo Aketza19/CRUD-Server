@@ -65,7 +65,7 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     public Company getCompany() {

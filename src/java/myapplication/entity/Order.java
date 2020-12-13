@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o")
-@Table(name = "Order", schema = "almazon")
+@Table(name = "order", schema = "almazon")
 @XmlRootElement
 public class Order implements Serializable {
 
@@ -47,19 +47,11 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy = "order", cascade = (MERGE), fetch = EAGER)
+    @OneToMany(mappedBy = "order", cascade = MERGE, fetch = EAGER)
     private Set<OrderProduct> orders;
 
     @ManyToOne
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User userOrder;
 
     //Getters and setters
     public Integer getId() {
