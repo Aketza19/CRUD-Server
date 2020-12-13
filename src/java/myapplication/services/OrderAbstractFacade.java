@@ -21,9 +21,9 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
     }
 
     
-    public List<Order> findAllOrders() {
+    /*public List<Order> findAllOrders() {
         return getEntityManager().createNamedQuery("findAllOrders").getResultList();
-    }
+    }*/
     
     
 }

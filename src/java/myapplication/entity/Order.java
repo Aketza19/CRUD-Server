@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,8 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * total price of the order and total quantity of products.
  */
 @Entity
-@NamedQuery(name="findAllOrders",query="SELECT o FROM Order o")
-@Table(name = "Order", schema = "almazon")
+@Table(name = "order", schema = "almazon")
+@NamedQueries({
+    @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o")})
 @XmlRootElement
 public class Order implements Serializable {
 
@@ -47,8 +49,8 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy = "order", cascade = (MERGE), fetch = EAGER)
-    private Set<OrderProduct> orders;
+    @OneToMany(mappedBy = "order", fetch = EAGER)
+    private Set<OrderProduct> products;
 
     @ManyToOne
     private User user;
@@ -79,12 +81,12 @@ public class Order implements Serializable {
     }
 
     @XmlTransient
-    public Set<OrderProduct> getOrders() {
-        return orders;
+    public Set<OrderProduct> getProducts() {
+        return products;
     }
 
-    public void setOrders(Set<OrderProduct> orders) {
-        this.orders = orders;
+    public void setProducts(Set<OrderProduct> products) {
+        this.products = products;
     }
 
     public Timestamp getDate() {
