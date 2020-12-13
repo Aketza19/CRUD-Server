@@ -62,12 +62,19 @@ public class OrderFacadeREST extends OrderAbstractFacade {
         return super.find(id);
     }
     
-    /*@GET
+    @GET
     @Path("order")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Order> find() {
         return super.findAllOrders();
-    }*/
+    }
+    
+    @GET
+    @Path("order/{companyId}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Order> findOrdersByCompany(@PathParam("company") Integer id) {
+        return super.findOrdersByCompany(id);
+    }
 
     @Override
     protected EntityManager getEntityManager() {

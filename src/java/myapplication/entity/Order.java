@@ -32,7 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "order", schema = "almazon")
 @NamedQueries({
-    @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o")})
+    @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o"),
+    @NamedQuery(name="findOrdersByCompany", query="SELECT o FROM Order o, User u WHERE o.user = u.id AND u.company = :company")
+})
 @XmlRootElement
 public class Order implements Serializable {
 
