@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import myapplication.entity.Order;
+import myapplication.entity.Product;
 
 /**
  *
@@ -19,7 +20,6 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
     public OrderAbstractFacade(Class<Order> entityClass) {
         super(entityClass);
     }
-
     
     public List<Order> findAllOrders() {
         return getEntityManager().createNamedQuery("findAllOrders").getResultList();
@@ -29,6 +29,11 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
         return getEntityManager().createNamedQuery("findOrdersByCompany")
                 .setParameter("company", company).getResultList();
     } 
+    
+    public List<Product> findProductsOrder(Integer id){
+        return getEntityManager().createNamedQuery("findProductsOrder")
+                .setParameter("id", id).getResultList();
+    }
             
     
     
