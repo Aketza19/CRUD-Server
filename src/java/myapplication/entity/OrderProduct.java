@@ -62,7 +62,7 @@ public class OrderProduct implements Serializable {
     public void setId(OrderProductId id) {
         this.id = id;
     }
-
+/*
     public Order getOrder() {
         return order;
     }
@@ -78,7 +78,7 @@ public class OrderProduct implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
-
+*/
     public Double getTotal_price() {
         return total_price;
     }

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import myapplication.entity.Order;
+import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
 
 /**
@@ -33,6 +34,11 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
     public List<Product> findProductsOrder(Integer id){
         return getEntityManager().createNamedQuery("findProductsOrder")
                 .setParameter("id", id).getResultList();
+    }
+    
+    public List<OrderProduct> findTotalOfOrderProduct(Integer id){
+        return getEntityManager().createNamedQuery("findTotalOfOrderProduct")
+                .setParameter("order", id).getResultList();
     }
             
     

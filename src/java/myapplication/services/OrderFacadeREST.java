@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Order;
+import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
 
 /**
@@ -71,10 +72,10 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     }
     
     @GET
-    @Path("order/{companyId}")
+    @Path("order/companyOrder/{companyId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Order> findOrdersByCompany(@PathParam("company") Integer id) {
-        return super.findOrdersByCompany(id);
+    public List<Order> findOrdersByCompany(@PathParam("companyId") Integer companyId) {
+        return super.findOrdersByCompany(companyId);
     }
 
     @GET
@@ -82,6 +83,13 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Product> findProductsOrder(@PathParam("orderId") Integer id) {
         return super.findProductsOrder(id);
+    }
+    
+    @GET
+    @Path("order/orderproducts/{orderId}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<OrderProduct> findTotalOfOrderProduct(@PathParam("orderId") Integer id){
+        return super.findTotalOfOrderProduct(id);
     }
     
     @Override
