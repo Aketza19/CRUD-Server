@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "order", schema = "almazon")
 @NamedQueries({
     @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o"),
-    @NamedQuery(name="findOrdersByCompany", query="SELECT o FROM Order o, User u WHERE o.user = u.id and u.company = :company"),
-    @NamedQuery(name="findProductsOrder",query="SELECT p FROM Order o, Product p, OrderProduct op WHERE o.id=:o.id op.order=o.id and op.product=p.id GROUP BY p.id")
+    @NamedQuery(name="findOrdersByCompany", query="SELECT o FROM Order o, User u WHERE o.user.id = u.id and u.company = :company"),
+    @NamedQuery(name="findProductsOrder",query="SELECT p FROM Order o, Product p, OrderProduct op WHERE o.id=:id and op.order=o.id and op.product=p.id GROUP BY p.id")
 })
 @XmlRootElement
 public class Order implements Serializable {
