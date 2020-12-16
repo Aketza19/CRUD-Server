@@ -27,9 +27,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "company", schema = "almazon")
 @NamedQueries({
-        @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
-        @NamedQuery(name = "providersCompanies", query = "SELECT c FROM Company c WHERE c.type = 'PROVIDER'"),
-        @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization")})
+    @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
+    @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization"),
+    // @NamedQuery(name = "amountOfUsersByCompany", query = "")
+})
 @XmlRootElement
 public class Company implements Serializable {
 
