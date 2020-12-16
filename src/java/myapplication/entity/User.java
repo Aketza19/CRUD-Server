@@ -22,6 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  *
@@ -29,6 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "user", schema = "almazon")
+@NamedQueries({
+    @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u WHERE company.name = :companyName"),
+    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),
+})
 @XmlRootElement
 public class User implements Serializable {
 
@@ -64,7 +70,7 @@ public class User implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 

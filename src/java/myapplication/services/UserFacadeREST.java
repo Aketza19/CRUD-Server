@@ -61,6 +61,21 @@ public class UserFacadeREST extends UserAbstractFacade {
         return super.find(id);
     }
 
+    @GET
+    @Path("user/getUsersByCompanyName/{companyName}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<User> findUsersByCompanyName(@PathParam("companyName") String companyName) {
+        return super.findUsersByCompanyName(companyName);
+    }
+
+    @GET
+    @Path("user/getUsersByName/{name}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<User> findUsersByName(@PathParam("name") String companyName) {
+        return super.findUsersByName(companyName);
+    }
+
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
