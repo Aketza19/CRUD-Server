@@ -32,45 +32,81 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name = "user", schema = "almazon")
 @NamedQueries({
-    @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u WHERE company.name = :companyName"),
-    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),
-})
+    @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u WHERE company.name = :companyName")
+    ,
+    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),})
 @XmlRootElement
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * The auto generated id of the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    /**
+     * The username of the user.
+     */
     @NotNull
     private String username;
+    /**
+     * The email of the user.
+     */
     @NotNull
     private String email;
+    /**
+     * The name of the user.
+     */
     @NotNull
     private String name;
+    /**
+     * The Surname of the user
+     */
     @NotNull
     private String surname;
 
+    /**
+     * The status of the user. Enum.
+     */
     @Enumerated(EnumType.STRING)
     @NotNull
     private UserStatus status;
-
+    /**
+     * The privilege of the user.
+     */
     @Enumerated(EnumType.STRING)
     @NotNull
     private UserPrivilege privilege;
+    /**
+     * The password of the user.
+     */
     @NotNull
     private String password;
+    /**
+     * The last access of the user.
+     */
     @NotNull
     private Timestamp lastAccess;
+    /**
+     * The last passsword change that has been made for this user.
+     */
     @NotNull
     private Timestamp lastPasswordChange;
 
+    /**
+     * The company object where this user belongs.
+     */
     @ManyToOne()
     private Company company;
-
+    /**
+     * The product relation. A user can create 0 or more products.
+     */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
-
+    /**
+     * The orders relation. A user can create 0 or more orders.
+     */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 

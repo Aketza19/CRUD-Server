@@ -35,6 +35,11 @@ public class UserFacadeREST extends UserAbstractFacade {
         super(User.class);
     }
 
+    /**
+     * The method to create a new user.
+     *
+     * @param entity
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -42,18 +47,33 @@ public class UserFacadeREST extends UserAbstractFacade {
         super.create(entity);
     }
 
+    /**
+     * The method to update a user.
+     *
+     * @param entity
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(User entity) {
         super.edit(entity);
     }
 
+    /**
+     * Deletes a user by id
+     *
+     * @param id
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
     }
 
+    /**
+     * Gets a user by id.
+     * @param id
+     * @return A user.
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -61,6 +81,11 @@ public class UserFacadeREST extends UserAbstractFacade {
         return super.find(id);
     }
 
+    /**
+     * Gets users by company name
+     * @param companyName
+     * @return a list of users.
+     */
     @GET
     @Path("user/getUsersByCompanyName/{companyName}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -68,6 +93,11 @@ public class UserFacadeREST extends UserAbstractFacade {
         return super.findUsersByCompanyName(companyName);
     }
 
+    /**
+     * Gets users by name.
+     * @param companyName
+     * @return a list of Users.
+     */
     @GET
     @Path("user/getUsersByName/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -75,7 +105,10 @@ public class UserFacadeREST extends UserAbstractFacade {
         return super.findUsersByName(companyName);
     }
 
-    
+    /**
+     * Gets the entity manager for this class.
+     * @return 
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
