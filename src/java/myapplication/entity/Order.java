@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "order", schema = "almazon")
 @NamedQueries({
     @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o"),
-    @NamedQuery(name="findOrdersByPrice", query="SELECT o FROM Order o WHERE total_price>=:price")
-    //
+    //@NamedQuery(name="findOrdersByPrice", query="SELECT o FROM Order o WHERE total_price >= :price")
 })
 @XmlRootElement
 public class Order implements Serializable {

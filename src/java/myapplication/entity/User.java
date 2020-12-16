@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -118,6 +119,7 @@ public class User implements Serializable {
         this.company = company;
     }
 
+    @XmlTransient
     public List<Product> getProducts() {
         return products;
     }
@@ -126,6 +128,7 @@ public class User implements Serializable {
         this.products = products;
     }
 
+    @XmlTransient
     public List<Order> getOrders() {
         return orders;
     }
