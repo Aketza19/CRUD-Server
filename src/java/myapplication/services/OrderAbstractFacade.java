@@ -26,21 +26,9 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
         return getEntityManager().createNamedQuery("findAllOrders").getResultList();
     }
     
-    public List<Order> findOrdersByCompany(Integer company){
-        return getEntityManager().createNamedQuery("findOrdersByCompany")
-                .setParameter("company", company).getResultList();
+    public List<Order> findOrdersByPrice(Double price){
+        return getEntityManager().createNamedQuery("findOrdersByPrice")
+                .setParameter("price", price).getResultList();
     } 
-    
-    public List<Product> findProductsOrder(Integer id){
-        return getEntityManager().createNamedQuery("findProductsOrder")
-                .setParameter("id", id).getResultList();
-    }
-    
-    public List<OrderProduct> findTotalOfOrderProduct(Integer id){
-        return getEntityManager().createNamedQuery("findTotalOfOrderProduct")
-                .setParameter("order", id).getResultList();
-    }
-            
-    
-    
+      
 }

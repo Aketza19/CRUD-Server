@@ -72,25 +72,12 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     }
     
     @GET
-    @Path("order/companyOrder/{companyId}")
+    @Path("order/{price}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Order> findOrdersByCompany(@PathParam("companyId") Integer companyId) {
-        return super.findOrdersByCompany(companyId);
+    public List<Order> findOrdersByPrice(@PathParam("price") Double price) {
+        return super.findOrdersByPrice(price);
     }
 
-    @GET
-    @Path("order/products/{orderId}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Product> findProductsOrder(@PathParam("orderId") Integer id) {
-        return super.findProductsOrder(id);
-    }
-    
-    @GET
-    @Path("order/orderproducts/{orderId}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<OrderProduct> findTotalOfOrderProduct(@PathParam("orderId") Integer id){
-        return super.findTotalOfOrderProduct(id);
-    }
     
     @Override
     protected EntityManager getEntityManager() {

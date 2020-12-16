@@ -33,12 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "order", schema = "almazon")
 @NamedQueries({
     @NamedQuery(name="findAllOrders",query="SELECT o FROM Order o"),
-    @NamedQuery(name="findOrdersByCompany", query="SELECT o FROM Order o, User u WHERE o.user = u.id and u.company.id = :company"),
-    @NamedQuery(name="findProductsOrder",query="SELECT p FROM Order o, Product p, OrderProduct op WHERE o.id=:id and op.order=o.id and op.product=p.id GROUP BY p.id"),
-    @NamedQuery(name="findTotalOfOrderProduct",query="SELECT op FROM OrderProduct op WHERE op.order.id = :order")//NECESITO CANTIDAD Y PRECIO TOTAL
-    /*
-    Comentar con Iker y Aketza: Necesito una query que me seleccione las compañias proveedoras. Necesito los productos de esa compañia proveedora.
-    */
+    @NamedQuery(name="findOrdersByPrice", query="SELECT o FROM Order o WHERE total_price>=:price")
+    //
 })
 @XmlRootElement
 public class Order implements Serializable {
@@ -62,8 +58,15 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-
     //Getters and setters
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -80,7 +83,7 @@ public class Order implements Serializable {
         this.total_price = total_price;
     }
 
-    @XmlTransient
+    
     public Set<OrderProduct> getProducts() {
         return products;
     }

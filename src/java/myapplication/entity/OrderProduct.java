@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -62,7 +63,8 @@ public class OrderProduct implements Serializable {
     public void setId(OrderProductId id) {
         this.id = id;
     }
-/*
+
+    @XmlTransient
     public Order getOrder() {
         return order;
     }
@@ -78,7 +80,7 @@ public class OrderProduct implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
-*/
+
     public Double getTotal_price() {
         return total_price;
     }
