@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,11 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "product", schema = "almazon")
+@NamedQueries({
+@NamedQuery (name="findProductByCompany", query="SELECT p FROM Product p, User u WHERE p.user=u.id and u.company.id = :company"),
+@NamedQuery (name="findProductsByName", query="SELECT p FROM Product p WHERE p.name LIKE :name"),
+@NamedQuery (name ="findAllProducts" , query="SELECT p FROM Product p")
+})
 @XmlRootElement
 public class Product implements Serializable {
 
@@ -123,8 +130,8 @@ public class Product implements Serializable {
      * @return the products
      */
     @XmlTransient
-    public Set<OrderProduct> getProducts() {
-        return products;
+    public Set<OrderProduct> getOrders() {
+        return orders;
     }
 
     /**
@@ -132,14 +139,14 @@ public class Product implements Serializable {
      *
      * @param products the products to be set
      */
-    public void setProducts(Set<OrderProduct> products) {
-        this.products = products;
+    public void setOrders(Set<OrderProduct> orders) {
+        this.orders = orders;
     }
     /**
      * The relational field which contains the list of products in an order.
      */
     @OneToMany(cascade = MERGE, mappedBy = "product", fetch = EAGER)
-    private Set<OrderProduct> products;
+    private Set<OrderProduct> orders;
     /**
      * User for the product.
      */
