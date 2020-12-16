@@ -22,8 +22,12 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
         return getEntityManager().createNamedQuery("findAllCompanies").getResultList();
     }
 
-    public int amountByCompany() {
-        return getEntityManager().createNamedQuery("amountByCompany").getMaxResults();
+    public List<Company> providersCompanies() {
+        return getEntityManager().createNamedQuery("providersCompanies").getResultList();
+    }
+
+    public List<Company> findCompaniesByLocalization(String localization) {
+        return getEntityManager().createNamedQuery("findCompaniesByLocalization").setParameter("localization", localization).getResultList();
     }
 
 }

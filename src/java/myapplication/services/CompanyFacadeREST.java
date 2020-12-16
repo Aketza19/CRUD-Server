@@ -58,7 +58,6 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Company find(@PathParam("id") Integer id) {
-
         return super.find(id);
     }
 
@@ -68,12 +67,19 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     public List<Company> findAllCompanies() {
         return super.findAllCompanies();
     }
-    
+
     @GET
-    @Path("amountByCompany")
+    @Path("providersCompanies")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public int amountByCompany() {
-        return super.amountByCompany();
+    public List<Company> providersCompanies() {
+        return super.providersCompanies();
+    }
+
+    @GET
+    @Path("findCompaniesByLocalizations/{localization}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
+        return super.findCompaniesByLocalization(localization);
     }
 
     @Override
