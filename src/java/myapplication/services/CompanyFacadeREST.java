@@ -22,7 +22,7 @@ import myapplication.entity.Company;
 
 /**
  *
- * @author 2dam
+ * @author Iker de la Cruz
  */
 @Stateless
 @Path("company")
@@ -58,8 +58,28 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Company find(@PathParam("id") Integer id) {
-
         return super.find(id);
+    }
+
+    @GET
+    @Path("findAllCompanies")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Company> findAllCompanies() {
+        return super.findAllCompanies();
+    }
+
+    @GET
+    @Path("providersCompanies")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Company> providersCompanies() {
+        return super.providersCompanies();
+    }
+
+    @GET
+    @Path("findCompaniesByLocalizations/{localization}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
+        return super.findCompaniesByLocalization(localization);
     }
 
     @Override

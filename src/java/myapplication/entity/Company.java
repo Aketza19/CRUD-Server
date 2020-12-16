@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import static javax.persistence.FetchType.EAGER;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -24,6 +26,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "company", schema = "almazon")
+@NamedQueries({
+        @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
+        @NamedQuery(name = "providersCompanies", query = "SELECT c FROM Company c WHERE c.type = 'PROVIDER'"),
+        @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization")})
 @XmlRootElement
 public class Company implements Serializable {
 
@@ -51,7 +57,6 @@ public class Company implements Serializable {
      * Localization of the Company.
      */
     private String localization;
-
 
     /**
      * Relational field containing the list of users on the company.

@@ -5,11 +5,12 @@
  */
 package myapplication.services;
 
+import java.util.List;
 import myapplication.entity.Company;
 
 /**
  *
- * @author 2dam
+ * @author Iker de la Cruz
  */
 public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
 
@@ -17,7 +18,16 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
         super(entityClass);
     }
 
-    
-   
-    
+    public List<Company> findAllCompanies() {
+        return getEntityManager().createNamedQuery("findAllCompanies").getResultList();
+    }
+
+    public List<Company> providersCompanies() {
+        return getEntityManager().createNamedQuery("providersCompanies").getResultList();
+    }
+
+    public List<Company> findCompaniesByLocalization(String localization) {
+        return getEntityManager().createNamedQuery("findCompaniesByLocalization").setParameter("localization", localization).getResultList();
+    }
+
 }
