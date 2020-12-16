@@ -20,6 +20,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Order;
+import myapplication.entity.OrderProduct;
+import myapplication.entity.Product;
 
 /**
  *
@@ -68,7 +70,15 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     public List<Order> find() {
         return super.findAllOrders();
     }
+    
+    @GET
+    @Path("order/{price}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Order> findOrdersByPrice(@PathParam("price") Double price) {
+        return super.findOrdersByPrice(price);
+    }
 
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;

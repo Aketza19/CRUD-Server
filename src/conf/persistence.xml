@@ -7,8 +7,6 @@
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="eclipselink.logging.level" value="FINE"/>
     </properties>
   </persistence-unit>
 </persistence>

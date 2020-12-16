@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *  total price of the order and total quantity of products.
  */
 @Entity
-@Table(name="OrderProduct",schema="almazon")
+@Table(name="orderProduct",schema="almazon")
 @XmlRootElement
 public class OrderProduct implements Serializable {
     
@@ -33,19 +34,21 @@ public class OrderProduct implements Serializable {
     @EmbeddedId
     private OrderProductId id;
     
-    
-    @MapsId("orderId")
     /**
      * Define the relation to Order table
      */
+    @MapsId("orderId")
     @ManyToOne
     private Order order;
-    @MapsId("productId")
+    
     /**
      * Define the relation to Product table
      */
+    
+    @MapsId("productId")
     @ManyToOne
     private Product product;
+    
     private Double total_price;
     private Integer total_quantity;
 
@@ -61,6 +64,7 @@ public class OrderProduct implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public Order getOrder() {
         return order;
     }
