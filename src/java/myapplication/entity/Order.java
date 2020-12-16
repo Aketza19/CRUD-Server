@@ -53,14 +53,6 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     //Getters and setters
     public Integer getId() {
         return id;
@@ -78,7 +70,6 @@ public class Order implements Serializable {
         this.total_price = total_price;
     }
 
-    @XmlTransient
     public Set<OrderProduct> getOrders() {
         return orders;
     }

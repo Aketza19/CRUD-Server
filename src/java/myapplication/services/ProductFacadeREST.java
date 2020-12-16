@@ -20,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import myapplication.entity.Order;
 import myapplication.entity.Product;
 
 /**
@@ -62,26 +63,31 @@ public class ProductFacadeREST extends ProductAbstractFacade {
     public Product find(@PathParam("id") Integer id) {
         return super.find(id);
     }
-    @GET
-    @Path("findProductInOrder")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Product> findProductInOrder() {
-        Set<Product> resultado = null;
-        resultado=new HashSet<>(em.createNamedQuery("findProductInOrder").getResultList());
-        return resultado;
-    } 
-    
+      
     @GET
     @Path("findAllProducts")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Product> findAllProducts() {
-        Set<Product> resultado = null;
-        resultado=new HashSet<>(em.createNamedQuery("findAllProducts").getResultList());
-        return resultado;
+    public List<Product> findAllProducts() {
+       return super.findAllProducts();
+    }
+    
+     @GET
+    @Path("findProductByCompany/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Product> findProductByCompany(@PathParam("id") Integer id) {
+       return super.findProductByCompany(id);
     } 
-
+    
+     @GET
+    @Path("findProductsByName/{name}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Product> findProductsByName(@PathParam("name") String name) {
+       return super.findProductsByName(name);
+    } 
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 }
+
