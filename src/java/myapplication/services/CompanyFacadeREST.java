@@ -103,17 +103,6 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         return super.findCompaniesByLocalization(localization);
     }
 
-    /**
-     *
-     * @return
-     */
-    @GET
-    @Path("amountOfUsersByCompany")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> amountOfUsersByCompany() {
-        return super.amountOfUsersByCompany();
-    }
-
     @Override
     protected EntityManager getEntityManager() {
         return em;
