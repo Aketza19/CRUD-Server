@@ -1,24 +1,16 @@
 // Java program to perform the
 // encryption and decryption
 // using asymmetric key
-package ejerciciosclavepublica;
+package myapplication.utils.security;
 
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.util.Scanner;
-
-import javax.crypto.Cipher;
 import javax.xml.bind.DatatypeConverter;
 
-public class EjerciciosClavePublica {
+public class Encryption {
 
   
     // Driver code
-    public static void main(String args[])
-            throws Exception {
+    public void generateEncryptionKeys(){
         KeyPair keypair
                 = KeyGenerator.generateRSAKkeyPair();
 
