@@ -3,6 +3,7 @@ package myapplication.entity;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,9 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "company", schema = "almazon")
 @NamedQueries({
-        @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
-        @NamedQuery(name = "providersCompanies", query = "SELECT c FROM Company c WHERE c.type = 'PROVIDER'"),
-        @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization")})
+    @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
+    @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization")
+})
 @XmlRootElement
 public class Company implements Serializable {
 
@@ -45,6 +46,7 @@ public class Company implements Serializable {
     /**
      * Name of the Company.
      */
+    @Column(unique = true) // This column value cannot be repeated.
     private String name;
 
     /**
@@ -193,4 +195,5 @@ public class Company implements Serializable {
     public String toString() {
         return "Company{" + "id=" + id + '}';
     }
+
 }
