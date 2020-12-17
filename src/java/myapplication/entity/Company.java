@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "company", schema = "almazon")
 @NamedQueries({
-    @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c"),
-    @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization"),
-    // @NamedQuery(name = "amountOfUsersByCompany", query = "")
+    @NamedQuery(name = "findAllCompanies", query = "SELECT c FROM Company c")
+    ,
+    @NamedQuery(name = "findCompaniesByLocalization", query = "SELECT c FROM Company c WHERE c.localization LIKE :localization"), // @NamedQuery(name = "amountOfUsersByCompany", query = "SELECT name FROM Company c")
 })
 @XmlRootElement
 public class Company implements Serializable {
@@ -194,4 +194,5 @@ public class Company implements Serializable {
     public String toString() {
         return "Company{" + "id=" + id + '}';
     }
+
 }

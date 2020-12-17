@@ -36,4 +36,13 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
         return getEntityManager().createNamedQuery("findCompaniesByLocalization").setParameter("localization", localization).getResultList();
     }
 
+    /**
+     * Method to get the amount of users by company.
+     *
+     * @return
+     */
+    public List<Company> amountOfUsersByCompany() {
+        return getEntityManager().createNamedQuery("amountOfUsersByCompany").getResultList();
+    }
+    
 }
