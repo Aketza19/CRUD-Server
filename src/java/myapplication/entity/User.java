@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -50,11 +51,13 @@ public class User implements Serializable {
     /**
      * The username of the user.
      */
+    @Column(unique = true)
     @NotNull
     private String username;
     /**
      * The email of the user.
      */
+    @Column(unique = true)
     @NotNull
     private String email;
     /**
