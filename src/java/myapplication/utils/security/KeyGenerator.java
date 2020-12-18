@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
@@ -29,8 +30,7 @@ public class KeyGenerator {
 
     // Generating public & private keys
     // using RSA algorithm.
-    public static KeyPair generateRSAKkeyPair()
-            throws Exception {
+    public static KeyPair generateRSAKkeyPair() throws NoSuchAlgorithmException {
         SecureRandom secureRandom
                 = new SecureRandom();
         KeyPairGenerator keyPairGenerator
@@ -38,15 +38,15 @@ public class KeyGenerator {
 
         keyPairGenerator.initialize(
                 2048, secureRandom);
-       
+
         KeyPair keypair = keyPairGenerator
                 .generateKeyPair();
         createKeyFile("private-key");
         createKeyFile("public-key");
         saveKeyToFile("private-key", DatatypeConverter.printHexBinary(
-                        keypair.getPrivate().getEncoded()));
+                keypair.getPrivate().getEncoded()));
         saveKeyToFile("public-key", DatatypeConverter.printHexBinary(
-                        keypair.getPublic().getEncoded()));
+                keypair.getPublic().getEncoded()));
         return keypair;
     }
 
@@ -55,13 +55,13 @@ public class KeyGenerator {
     // using private Key.
     public static byte[] do_RSAEncryption(
             String plainText,
-            PrivateKey privateKey)
+            PublicKey publicKey)
             throws Exception {
         Cipher cipher
                 = Cipher.getInstance(RSA);
 
         cipher.init(
-                Cipher.ENCRYPT_MODE, privateKey);
+                Cipher.ENCRYPT_MODE, publicKey);
 
         return cipher.doFinal(
                 plainText.getBytes());
@@ -72,13 +72,13 @@ public class KeyGenerator {
     // orginal plaintext.
     public static String do_RSADecryption(
             byte[] cipherText,
-            PublicKey publicKey)
+            PrivateKey privateKey)
             throws Exception {
         Cipher cipher
                 = Cipher.getInstance(RSA);
 
         cipher.init(Cipher.DECRYPT_MODE,
-                publicKey);
+                privateKey);
         byte[] result
                 = cipher.doFinal(cipherText);
 
