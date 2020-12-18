@@ -8,6 +8,10 @@ package myapplication.services;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import myapplication.exceptions.CreateException;
+import myapplication.exceptions.DeleteException;
+import myapplication.exceptions.ReadException;
+import myapplication.exceptions.UpdateException;
 
 /**
  * TODO: add exception and queries
@@ -24,20 +28,36 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
-        getEntityManager().persist(entity);
+    public void create(T entity) throws CreateException{
+        try{
+            getEntityManager().persist(entity);
+        }catch(Exception e){
+            throw new CreateException(e.getMessage());
+        }
     }
 
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
+    public void edit(T entity) throws UpdateException {
+        try{
+            getEntityManager().merge(entity);
+        }catch(Exception e){
+            throw new UpdateException(e.getMessage());
+        }
     }
 
-    public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void remove(T entity) throws DeleteException {
+        try{
+            getEntityManager().remove(getEntityManager().merge(entity));
+        }catch(Exception e){
+            throw new DeleteException(e.getMessage());
+        }
     }
 
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+    public T find(Object id) throws ReadException{
+        try{
+            return getEntityManager().find(entityClass, id);
+        }catch(Exception e){
+            throw new ReadException(e.getMessage());
+        }
     }
 
 }

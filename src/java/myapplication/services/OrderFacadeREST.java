@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -22,6 +23,12 @@ import javax.ws.rs.core.MediaType;
 import myapplication.entity.Order;
 import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
+import myapplication.exceptions.CreateException;
+import myapplication.exceptions.DeleteException;
+import myapplication.exceptions.ReadException;
+import myapplication.exceptions.UpdateException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,6 +37,8 @@ import myapplication.entity.Product;
 @Stateless
 @Path("order")
 public class OrderFacadeREST extends OrderAbstractFacade {
+
+    private Logger LOGGER = Logger.getLogger(OrderFacadeREST.class.getName());
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
@@ -42,30 +51,36 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
-        try{
+        try {
             super.create(entity);
-        }catch(){
-            
+        } catch (CreateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
-        try{
+        try {
             super.edit(entity);
-        }catch(){
-            
+        } catch (UpdateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        try{
+        try {
             super.remove(super.find(id));
-        }catch(){
-            
+        } catch (DeleteException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -73,36 +88,38 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Order find(@PathParam("id") Integer id) {
-        try{
+        try {
             return super.find(id);
-        }catch(){
-            
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
-    
+
     @GET
     @Path("order")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Order> find() {
-        try{
+    public Set<Order> findAllOrders() {
+     try {
             return super.findAllOrders();
-        }catch(){
-            
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
-    
+
     @GET
     @Path("order/{price}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Order> findOrdersByPrice(@PathParam("price") Double price) {
-        try{
+        try {
             return super.findOrdersByPrice(price);
-        }catch(){
-            
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
-    
     @Override
     protected EntityManager getEntityManager() {
         return em;
