@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package myapplication.services;
 
 import java.util.List;
@@ -21,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import myapplication.entity.Company;
 
 /**
+ * The class that contains the RESTful for Company.
  *
  * @author Iker de la Cruz
  */
@@ -35,6 +31,11 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         super(Company.class);
     }
 
+    /**
+     * POST method to create companies.
+     *
+     * @param entity The company object.
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -42,18 +43,34 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         super.create(entity);
     }
 
+    /**
+     * PUT method to modify companies.
+     *
+     * @param entity The company object.
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Company entity) {
         super.edit(entity);
     }
 
+    /**
+     * DELETE method to remove a company by id.
+     *
+     * @param id The id for the company to remove.
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
     }
 
+    /**
+     * GET method to obtain a company by id.
+     *
+     * @param id The company id.
+     * @return A Company object.
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -61,6 +78,11 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         return super.find(id);
     }
 
+    /**
+     * GET method to obtain all companies.
+     *
+     * @return A list of Company objects.
+     */
     @GET
     @Path("findAllCompanies")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -68,13 +90,12 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
         return super.findAllCompanies();
     }
 
-    @GET
-    @Path("providersCompanies")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> providersCompanies() {
-        return super.providersCompanies();
-    }
-
+    /**
+     * GET method to obtain the companies by the localization.
+     *
+     * @param localization The company localization.
+     * @return A list of Company objects.
+     */
     @GET
     @Path("findCompaniesByLocalizations/{localization}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
