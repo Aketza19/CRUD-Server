@@ -62,28 +62,44 @@ public class OrderProductFacadeREST extends AbstractFacade<OrderProduct> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(OrderProduct entity) {
-        super.create(entity);
+        try{
+            super.create(entity);
+        }catch(){
+            
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(OrderProduct entity) {
-        super.edit(entity);
+        try{
+            super.edit(entity);
+        }catch(){
+            
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
-        myapplication.entity.OrderProductId key = getPrimaryKey(id);
-        super.remove(super.find(key));
+        try{
+            myapplication.entity.OrderProductId key = getPrimaryKey(id);
+            super.remove(super.find(key));
+        }catch(){
+            
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public OrderProduct find(@PathParam("id") PathSegment id) {
-        myapplication.entity.OrderProductId key = getPrimaryKey(id);
-        return super.find(key);
+        try{
+            myapplication.entity.OrderProductId key = getPrimaryKey(id);
+            return super.find(key);
+        }catch(){
+            
+        }
     }
 
     @Override

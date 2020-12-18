@@ -22,13 +22,13 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
         super(entityClass);
     }
     
-    public List<Order> findAllOrders() {
-        return getEntityManager().createNamedQuery("findAllOrders").getResultList();
+    public Set<Order> findAllOrders() {
+        return new HashSet<Order>(getEntityManager().createNamedQuery("findAllOrders").getResultList());
     }
     
-    public List<Order> findOrdersByPrice(Double price){
-        return getEntityManager().createNamedQuery("findOrdersByPrice")
-                .setParameter("price", price).getResultList();
+    public Set<Order> findOrdersByPrice(Double price){
+        return new HashSet<Order>(getEntityManager().createNamedQuery("findOrdersByPrice")
+                .setParameter("price", price).getResultList());
     } 
       
 }

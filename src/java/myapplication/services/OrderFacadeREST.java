@@ -42,40 +42,64 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
-        super.create(entity);
+        try{
+            super.create(entity);
+        }catch(){
+            
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
-        super.edit(entity);
+        try{
+            super.edit(entity);
+        }catch(){
+            
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+        try{
+            super.remove(super.find(id));
+        }catch(){
+            
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Order find(@PathParam("id") Integer id) {
-        return super.find(id);
+        try{
+            return super.find(id);
+        }catch(){
+            
+        }
     }
     
     @GET
     @Path("order")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Order> find() {
-        return super.findAllOrders();
+    public Set<Order> find() {
+        try{
+            return super.findAllOrders();
+        }catch(){
+            
+        }
     }
     
     @GET
     @Path("order/{price}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Order> findOrdersByPrice(@PathParam("price") Double price) {
-        return super.findOrdersByPrice(price);
+    public Set<Order> findOrdersByPrice(@PathParam("price") Double price) {
+        try{
+            return super.findOrdersByPrice(price);
+        }catch(){
+            
+        }
     }
 
     
