@@ -6,12 +6,14 @@
 package myapplication.services;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -21,6 +23,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
 import myapplication.entity.OrderProduct;
 import myapplication.entity.OrderProductId;
+import myapplication.exceptions.CreateException;
+import myapplication.exceptions.DeleteException;
+import myapplication.exceptions.ReadException;
+import myapplication.exceptions.UpdateException;
 
 /**
  *
@@ -30,6 +36,8 @@ import myapplication.entity.OrderProductId;
 @Path("orderproduct")
 public class OrderProductFacadeREST extends AbstractFacade<OrderProduct> {
 
+    private Logger LOGGER = Logger.getLogger(OrderFacadeREST.class.getName());
+    
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
 
@@ -62,28 +70,51 @@ public class OrderProductFacadeREST extends AbstractFacade<OrderProduct> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(OrderProduct entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
+    
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(OrderProduct entity) {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (UpdateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+        
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
-        myapplication.entity.OrderProductId key = getPrimaryKey(id);
-        super.remove(super.find(key));
+        try {
+            super.remove(super.find(id));
+        } catch (DeleteException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public OrderProduct find(@PathParam("id") PathSegment id) {
-        myapplication.entity.OrderProductId key = getPrimaryKey(id);
-        return super.find(key);
+        try {
+            return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     @Override

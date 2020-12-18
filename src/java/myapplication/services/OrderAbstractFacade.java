@@ -11,6 +11,7 @@ import java.util.Set;
 import myapplication.entity.Order;
 import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
+import myapplication.exceptions.ReadException;
 
 /**
  *
@@ -21,14 +22,22 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
     public OrderAbstractFacade(Class<Order> entityClass) {
         super(entityClass);
     }
-    
-    public List<Order> findAllOrders() {
-        return getEntityManager().createNamedQuery("findAllOrders").getResultList();
+
+    public Set<Order> findAllOrders() throws ReadException{
+        try {
+            return new HashSet<Order>(getEntityManager().createNamedQuery("findAllOrders").getResultList());
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
     }
-    
-    public List<Order> findOrdersByPrice(Double price){
-        return getEntityManager().createNamedQuery("findOrdersByPrice")
-                .setParameter("price", price).getResultList();
-    } 
-      
+
+    public Set<Order> findOrdersByPrice(Double price) throws ReadException {
+        try {
+            return new HashSet<Order>(getEntityManager().createNamedQuery("findOrdersByPrice")
+                    .setParameter("price", price).getResultList());
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+    }
+
 }
