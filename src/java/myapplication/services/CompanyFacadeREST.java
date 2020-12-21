@@ -1,6 +1,6 @@
 package myapplication.services;
 
-import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -86,7 +86,7 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @GET
     @Path("findAllCompanies")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> findAllCompanies() {
+    public Set<Company> findAllCompanies() {
         return super.findAllCompanies();
     }
 
@@ -99,7 +99,7 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @GET
     @Path("findCompaniesByLocalizations/{localization}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
+    public Set<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
         return super.findCompaniesByLocalization(localization);
     }
 
