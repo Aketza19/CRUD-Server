@@ -1,6 +1,3 @@
-// Java program to perform the
-// encryption and decryption
-// using asymmetric key
 package myapplication.utils.security;
 
 import java.io.FileNotFoundException;
@@ -21,8 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 
+/**
+ * @author Mikel Granero
+ */
 public class Encryption {
 
+    /**
+     * Generates RSA Keys. This method shoudn't be called as the keys are
+     * already generated.
+     */
     public static void generateRSAKeys() {
         try {
             KeyGenerator.generateRSAKkeyPair();
@@ -31,6 +35,12 @@ public class Encryption {
         }
     }
 
+    /**
+     * Encrypts a String using the public key.
+     *
+     * @param text
+     * @return The text encrypted.
+     */
     public static String encryptString(String text) {
         try {
             byte[] cipherText
@@ -46,6 +56,12 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Decrypts a string using the private key.
+     *
+     * @param encryptedString
+     * @return
+     */
     public static String decryptString(String encryptedString) {
         // Key key = new SecretKeySpec(keyString.getBytes(),0,keyString.getBytes().length, "DES");     
         //byte[] encriptedStringinBytes = encryptedString.getBytes();
@@ -63,6 +79,11 @@ public class Encryption {
 
     }
 
+    /**
+     * Gets the public key used to encrypt.
+     *
+     * @return the PublicKey.
+     */
     public static PublicKey getPublicKey() {
         try {
             String filename = "public-key.key";
@@ -81,6 +102,11 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Gets the private key used to encrypt and decrypt.
+     *
+     * @return the PrivateKey.
+     */
     public static PrivateKey getPrivateKey() {
         try {
             String filename = "private-key.key";
@@ -96,6 +122,12 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Gets the content of a file as string.
+     *
+     * @param filename The file to read.
+     * @return The content of the file.
+     */
     public static String getFileContentAsString(String filename) {
         try {
             Scanner in = new Scanner(new FileReader(filename));
@@ -111,6 +143,12 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Generates a hash for a String using SHA-256
+     *
+     * @param text The text to hash.
+     * @return The hash.
+     */
     public static String hashString(String text) {
         MessageDigest digest;
         try {
@@ -124,6 +162,13 @@ public class Encryption {
         return null;
     }
 
+    /**
+     * Compares two hashes.
+     *
+     * @param hashedStr The hashed string
+     * @param plainText The plain text
+     * @return Returns true if the hashes match, false if don't
+     */
     public static boolean compareHash(String hashedStr, String plainText) {
         if (!hashedStr.equals(hashString(plainText))) {
             return false;
@@ -132,10 +177,22 @@ public class Encryption {
         }
     }
 
+    /**
+     * Converts a ByteArray into a HexString String
+     *
+     * @param array
+     * @return the string in HexString format
+     */
     public static String toHexString(byte[] array) {
         return DatatypeConverter.printHexBinary(array);
     }
 
+    /**
+     * Converts a String into a ByteArray.
+     *
+     * @param s The String to convert into ByteArray
+     * @return a ByteArray.
+     */
     public static byte[] toByteArray(String s) {
         return DatatypeConverter.parseHexBinary(s);
     }
