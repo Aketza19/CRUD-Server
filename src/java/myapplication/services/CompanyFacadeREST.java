@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Company;
+import myapplication.exceptions.CreateException;
 
 /**
  * The class that contains the RESTful for Company.
@@ -39,7 +40,7 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Company entity) {
+    public void create(Company entity) throws CreateException {
         super.create(entity);
     }
 
