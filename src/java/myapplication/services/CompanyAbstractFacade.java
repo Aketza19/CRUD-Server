@@ -1,6 +1,7 @@
 package myapplication.services;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import myapplication.entity.Company;
 
 /**
@@ -21,8 +22,8 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
      *
      * @return A list of Company object.
      */
-    public List<Company> findAllCompanies() {
-        return getEntityManager().createNamedQuery("findAllCompanies").getResultList();
+    public Set<Company> findAllCompanies() {
+        return new HashSet<Company>(getEntityManager().createNamedQuery("findAllCompanies").getResultList());
     }
 
     /**
@@ -32,8 +33,8 @@ public abstract class CompanyAbstractFacade extends AbstractFacade<Company> {
      * @param localization The company localization.
      * @return A list of Company object.
      */
-    public List<Company> findCompaniesByLocalization(String localization) {
-        return getEntityManager().createNamedQuery("findCompaniesByLocalization").setParameter("localization", localization).getResultList();
+    public Set<Company> findCompaniesByLocalization(String localization) {
+        return new HashSet<Company>(getEntityManager().createNamedQuery("findCompaniesByLocalization").setParameter("localization", localization).getResultList());
     }
 
 }
