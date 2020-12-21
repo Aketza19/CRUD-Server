@@ -49,7 +49,7 @@ public class SymmetricEncryption {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         } catch (Exception e) {
-            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SymmetricEncryption.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class SymmetricEncryption {
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
-            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SymmetricEncryption.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
