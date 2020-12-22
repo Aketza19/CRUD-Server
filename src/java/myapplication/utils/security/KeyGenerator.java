@@ -14,22 +14,25 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
-import java.util.Scanner;
 import javax.crypto.Cipher;
 import javax.xml.bind.DatatypeConverter;
+import myapplication.utils.filesystem.FileHandler;
 
 /**
  *
  * @author Mikel
  */
+
 public class KeyGenerator {
 
-    private static final String RSA
-            = "RSA";
-    private static Scanner sc;
+    private static final String RSA = "RSA";
 
-    // Generating public & private keys
-    // using RSA algorithm.
+    /**
+     * Generates RSA keys using RSA algorythm.
+     *
+     * @return a Keypair.
+     * @throws NoSuchAlgorithmException
+     */
     public static KeyPair generateRSAKkeyPair() throws NoSuchAlgorithmException {
         SecureRandom secureRandom
                 = new SecureRandom();
@@ -41,71 +44,51 @@ public class KeyGenerator {
 
         KeyPair keypair = keyPairGenerator
                 .generateKeyPair();
-        createKeyFile("private-key");
-        createKeyFile("public-key");
-        saveKeyToFile("private-key", DatatypeConverter.printHexBinary(
+        FileHandler.createFile("private-key.key");
+        FileHandler.createFile("public-key.key");
+        FileHandler.writeStringToFile("private-key.key", DatatypeConverter.printHexBinary(
                 keypair.getPrivate().getEncoded()));
-        saveKeyToFile("public-key", DatatypeConverter.printHexBinary(
+        FileHandler.writeStringToFile("public-key.key", DatatypeConverter.printHexBinary(
                 keypair.getPublic().getEncoded()));
         return keypair;
     }
 
-    // Encryption function which converts
-    // the plainText into a cipherText
-    // using private Key.
+    /**
+     * Executes the encryption using the public key.
+     *
+     * @param plainText The plain text to encrypt.
+     * @param publicKey The public key used to encrypt.
+     * @return an array of bytes.
+     * @throws Exception
+     */
     public static byte[] do_RSAEncryption(
             String plainText,
             PublicKey publicKey)
             throws Exception {
-        Cipher cipher
-                = Cipher.getInstance(RSA);
+        Cipher cipher = Cipher.getInstance(RSA);
 
-        cipher.init(
-                Cipher.ENCRYPT_MODE, publicKey);
-
-        return cipher.doFinal(
-                plainText.getBytes());
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return cipher.doFinal(plainText.getBytes());
     }
 
-    // Decryption function which converts
-    // the ciphertext back to the
-    // orginal plaintext.
+    /**
+     * Decrypts the RSA String using the private key.
+     *
+     * @param cipherText The text to decrypt.
+     * @param privateKey The private key.
+     * @return The String decrypted.
+     * @throws Exception
+     */
     public static String do_RSADecryption(
             byte[] cipherText,
             PrivateKey privateKey)
             throws Exception {
-        Cipher cipher
-                = Cipher.getInstance(RSA);
+        Cipher cipher = Cipher.getInstance(RSA);
 
-        cipher.init(Cipher.DECRYPT_MODE,
-                privateKey);
-        byte[] result
-                = cipher.doFinal(cipherText);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        byte[] result = cipher.doFinal(cipherText);
 
         return new String(result);
     }
 
-    public static void createKeyFile(String filename) {
-        try {
-            File myObj = new File(filename + ".key");
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-        }
-    }
-
-    public static void saveKeyToFile(String filename, String key) {
-        try {
-            FileWriter myWriter = new FileWriter(filename + ".key");
-            myWriter.write(key);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-        }
-    }
 }
