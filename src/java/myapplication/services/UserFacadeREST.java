@@ -112,6 +112,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Path("user/getPublicKey")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String getPublicKey() {
+       // Devuelve la clave pública
        return DatatypeConverter.printHexBinary(AsymmetricEncryption.getPublicKey().getEncoded());
     }
     /**
