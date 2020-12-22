@@ -112,7 +112,10 @@ public class EmailService {
     }
 
     /**
-     * Method used to generate a random password.
+     * Method used to generate a random password. This method uses the
+     * passay-1.6.0.jar library, it can be downloaded from:
+     * https://www.passay.org/downloads/1.6.0/passay-1.6.0-dist.zip. If the link
+     * doesn't work, there is the official website: https://www.passay.org/.
      *
      * @return The password generated.
      */
@@ -148,25 +151,51 @@ public class EmailService {
         CharacterRule splCharRule = new CharacterRule(specialChars);
         splCharRule.setNumberOfCharacters(2);
 
-        // Generate the password with the rules.
+        // Generate the password with the rules. For length to be evaluated it 
+        // must be greater than the number of characters defined in the character rule.
         String password = gen.generatePassword(10, splCharRule, lowerCaseRule,
                 upperCaseRule, digitRule);
         return password;
     }
 
+    // TODO: Si cabe la posibilidad, juntar los metodos sendNewPassword() y recoverUserPassword() 
+    // en un solo metodo para no repetir codigo.
     /**
-     * TODO: Cambiar el contenido del correo, si es un correo de recuperacion de
-     * contraseña o de nueva contraseña generada.
+     * Method used to send a new password to the user. This method uses the
+     * generatePassayPassword() method to generate a secure and random password
+     * to the user.
      *
-     * TODO: Los parametros del correo y contraseña cogerlo de un fichero
-     * encriptado.
+     * @param transmitterEmail The transmitter email.
+     * @param transmitterPassword The transmitter password.
+     * @param receiverEmail The receiver email.
      */
-    public void sendNewPassword() {
-        EmailService emailService = new EmailService("nobody@gmail.com",
-                "somePassword", "smtp.gmail.com", 465);
+    public void sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
+        EmailService emailService = new EmailService(transmitterEmail,
+                transmitterPassword, "smtp.gmail.com", 465);
         try {
-            emailService.sendMail("receiver@gmail.com", "Mensaje de prueba",
-                    "Correo de vital importancia");
+            emailService.sendMail(receiverEmail, "New password",
+                    generatePassayPassword());
+            System.out.println("Ok, mail sent!");
+        } catch (MessagingException e) {
+            System.out.println("Doh! " + e.getMessage());
+        }
+    }
+
+    /**
+     * Method used to recover the user's password. This method takes the user's
+     * password from the database.
+     *
+     * @param transmitterEmail The transmitter email.
+     * @param transmitterPassword The transmitter password.
+     * @param receiverEmail The receiver email.
+     * @param userPassword The user's password, taken from the database.
+     */
+    public void recoverUserPassword(String transmitterEmail, String transmitterPassword, String receiverEmail, String userPassword) {
+        EmailService emailService = new EmailService(transmitterEmail,
+                transmitterPassword, "smtp.gmail.com", 465);
+        try {
+            emailService.sendMail(receiverEmail, "Recover password",
+                    userPassword);
             System.out.println("Ok, mail sent!");
         } catch (MessagingException e) {
             System.out.println("Doh! " + e.getMessage());
