@@ -27,7 +27,6 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  *
  * @author Mikel
@@ -37,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u WHERE company.name = :companyName")
     ,
-    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),})
+    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name")
+    ,
+    @NamedQuery(name = "getPasswordByEmail", query = "SELECT u.password FROM User u WHERE u.email = :email"),})
 @XmlRootElement
 public class User implements Serializable {
 

@@ -158,8 +158,6 @@ public class EmailService {
         return password;
     }
 
-    // TODO: Si cabe la posibilidad, juntar los metodos sendNewPassword() y recoverUserPassword() 
-    // en un solo metodo para no repetir codigo.
     /**
      * Method used to send a new password to the user. This method uses the
      * generatePassayPassword() method to generate a secure and random password
@@ -169,7 +167,7 @@ public class EmailService {
      * @param transmitterPassword The transmitter password.
      * @param receiverEmail The receiver email.
      */
-    public void sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
+    public static void sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
         EmailService emailService = new EmailService(transmitterEmail,
                 transmitterPassword, "smtp.gmail.com", 465);
         try {
@@ -182,7 +180,7 @@ public class EmailService {
     }
 
     /**
-     * Method used to recover the user's password. This method takes the user's
+     * Method used to recover the user password. This method takes the user
      * password from the database.
      *
      * @param transmitterEmail The transmitter email.
@@ -190,7 +188,7 @@ public class EmailService {
      * @param receiverEmail The receiver email.
      * @param userPassword The user's password, taken from the database.
      */
-    public void recoverUserPassword(String transmitterEmail, String transmitterPassword, String receiverEmail, String userPassword) {
+    public static void recoverUserPassword(String transmitterEmail, String transmitterPassword, String receiverEmail, String userPassword) {
         EmailService emailService = new EmailService(transmitterEmail,
                 transmitterPassword, "smtp.gmail.com", 465);
         try {
