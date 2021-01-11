@@ -1,12 +1,14 @@
 package myapplication.services;
 
-import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -14,6 +16,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Company;
+import myapplication.exceptions.CreateException;
+import myapplication.exceptions.DeleteException;
+import myapplication.exceptions.ReadException;
+import myapplication.exceptions.UpdateException;
 
 /**
  * The class that contains the RESTful for Company.
@@ -23,6 +29,8 @@ import myapplication.entity.Company;
 @Stateless
 @Path("company")
 public class CompanyFacadeREST extends CompanyAbstractFacade {
+
+    private Logger LOGGER = Logger.getLogger(CompanyFacadeREST.class.getName());
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
@@ -40,7 +48,12 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Company entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 
     /**
@@ -51,7 +64,12 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Company entity) {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (UpdateException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 
     /**
@@ -62,7 +80,12 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+        try {
+            super.remove(super.find(id));
+        } catch (ReadException | DeleteException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 
     /**
@@ -75,7 +98,12 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Company find(@PathParam("id") Integer id) {
-        return super.find(id);
+        try {
+            return super.find(id);
+        } catch (ReadException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 
     /**
@@ -86,7 +114,7 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @GET
     @Path("findAllCompanies")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> findAllCompanies() {
+    public Set<Company> findAllCompanies() {
         return super.findAllCompanies();
     }
 
@@ -99,7 +127,7 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @GET
     @Path("findCompaniesByLocalizations/{localization}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
+    public Set<Company> findCompaniesByLocalization(@PathParam("localization") String localization) {
         return super.findCompaniesByLocalization(localization);
     }
 
