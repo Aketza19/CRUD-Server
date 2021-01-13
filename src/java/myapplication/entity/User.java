@@ -6,7 +6,7 @@
 package myapplication.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.security.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,7 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +26,6 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  *
  * @author Mikel
@@ -35,7 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "user", schema = "almazon")
 @NamedQueries({
-    @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u WHERE company.name = :companyName")
+    @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u, Company c WHERE u.company.id=c.id AND c.name=:companyName")
+    ,
+    @NamedQuery(name = "getAllUsers", query = "SELECT u FROM User u")
     ,
     @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),})
 @XmlRootElement
@@ -68,6 +68,7 @@ public class User implements Serializable {
     /**
      * The Surname of the user
      */
+    
     @NotNull
     private String surname;
 

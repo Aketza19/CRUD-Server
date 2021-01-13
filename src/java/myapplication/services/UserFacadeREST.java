@@ -20,11 +20,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 import myapplication.entity.User;
 import myapplication.exceptions.CreateException;
 import myapplication.exceptions.DeleteException;
 import myapplication.exceptions.ReadException;
 import myapplication.exceptions.UpdateException;
+import myapplication.utils.security.AsymmetricEncryption;
 
 /**
  *
@@ -106,6 +108,13 @@ public class UserFacadeREST extends UserAbstractFacade {
         return null;
     }
 
+    @GET
+    @Path("user/getPublicKey")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public String getPublicKey() {
+       // Devuelve la clave pública
+       return DatatypeConverter.printHexBinary(AsymmetricEncryption.getPublicKey().getEncoded());
+    }
     /**
      * Gets users by company name
      * @param companyName
@@ -128,6 +137,18 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> findUsersByName(@PathParam("name") String companyName) {
         return super.findUsersByName(companyName);
+    }
+    
+        /**
+     * Gets all the users in the database.
+     * @param companyName
+     * @return a list of Users.
+     */
+    @GET
+    @Path("user/getAllUsers")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<User> getAllUsers() {
+        return super.getAllUsers();
     }
 
     /**
