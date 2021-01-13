@@ -6,7 +6,7 @@
 package myapplication.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.security.Timestamp;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,14 +53,12 @@ public class User implements Serializable {
      */
     @Column(unique = true)
     @NotNull
-    @Column(unique = true)
     private String username;
     /**
      * The email of the user.
      */
     @Column(unique = true)
     @NotNull
-    @Column(unique = true)
     private String email;
     /**
      * The name of the user.
