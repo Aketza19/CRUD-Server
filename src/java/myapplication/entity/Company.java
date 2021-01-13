@@ -20,8 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity representating the Companies. It contains the following fields:
- * company id, company name, company type, company localization and company
- * amount of users.
+ * company id, company name, company type and company localization.
  *
  * @author Iker de la Cruz
  */
