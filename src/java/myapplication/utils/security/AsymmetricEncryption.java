@@ -132,7 +132,10 @@ public class AsymmetricEncryption {
      */
     public static String getFileContentAsString(String filename) {
         try {
+
+            
             Scanner in = new Scanner(new FileReader("./" + filename));
+
             StringBuilder sb = new StringBuilder();
             while (in.hasNext()) {
                 sb.append(in.next());

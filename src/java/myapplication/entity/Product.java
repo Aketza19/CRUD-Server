@@ -7,6 +7,7 @@ package myapplication.entity;
 
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
@@ -145,7 +146,7 @@ public class Product implements Serializable {
     /**
      * The relational field which contains the list of products in an order.
      */
-    @OneToMany(cascade = MERGE, mappedBy = "product", fetch = EAGER)
+    @OneToMany(orphanRemoval = true, mappedBy = "product", fetch = EAGER)
     private Set<OrderProduct> orders;
     /**
      * User for the product.

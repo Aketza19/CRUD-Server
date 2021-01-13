@@ -108,12 +108,12 @@ public class User implements Serializable {
     /**
      * The product relation. A user can create 0 or more products.
      */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Product> products;
     /**
      * The orders relation. A user can create 0 or more orders.
      */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Order> orders;
 
     public Company getCompany() {
