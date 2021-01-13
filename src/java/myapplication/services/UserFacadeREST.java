@@ -138,6 +138,18 @@ public class UserFacadeREST extends UserAbstractFacade {
     public List<User> findUsersByName(@PathParam("name") String companyName) {
         return super.findUsersByName(companyName);
     }
+    
+        /**
+     * Gets all the users in the database.
+     * @param companyName
+     * @return a list of Users.
+     */
+    @GET
+    @Path("user/getAllUsers")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<User> getAllUsers() {
+        return super.getAllUsers();
+    }
 
     /**
      * Gets the entity manager for this class.
