@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,7 +52,7 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy = "order", fetch = EAGER)
+    @OneToMany(mappedBy = "order", fetch = EAGER, orphanRemoval = true)
     private Set<OrderProduct> products;
 
     @ManyToOne

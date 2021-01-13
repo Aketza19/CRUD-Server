@@ -3,6 +3,7 @@ package myapplication.entity;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,7 +64,7 @@ public class Company implements Serializable {
     /**
      * Relational field containing the list of users on the company.
      */
-    @OneToMany(mappedBy = "company", fetch = EAGER)
+    @OneToMany(mappedBy = "company", fetch = EAGER, orphanRemoval= true)
     private Set<User> users;
 
     /**
