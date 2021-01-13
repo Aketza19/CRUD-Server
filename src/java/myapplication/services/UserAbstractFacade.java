@@ -69,4 +69,10 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
         // TODO: Coger las credenciales del emisor desde los ficheros encriptados.
         EmailService.recoverUserPassword("almazon.passw.restore@gmail.com", "AitanaWar88", email, password);
     }
+    
+     public List<User> getAllUsers() {
+        return getEntityManager().createNamedQuery("getAllUsers").getResultList();
+    }
+    
+    
 }
