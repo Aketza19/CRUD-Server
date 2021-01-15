@@ -6,7 +6,8 @@
 package myapplication.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.security.Timestamp;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -68,6 +71,7 @@ public class User implements Serializable {
     /**
      * The Surname of the user
      */
+    
     @NotNull
     private String surname;
 
@@ -92,12 +96,14 @@ public class User implements Serializable {
      * The last access of the user.
      */
     @NotNull
-    private Timestamp lastAccess;
+    @Temporal(TemporalType.DATE)
+    private Date lastAccess;
     /**
      * The last passsword change that has been made for this user.
      */
     @NotNull
-    private Timestamp lastPasswordChange;
+    @Temporal(TemporalType.DATE)
+    private Date lastPasswordChange;
 
     /**
      * The company object where this user belongs.
@@ -107,12 +113,12 @@ public class User implements Serializable {
     /**
      * The product relation. A user can create 0 or more products.
      */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Product> products;
     /**
      * The orders relation. A user can create 0 or more orders.
      */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Order> orders;
 
     public Company getCompany() {
@@ -197,19 +203,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Timestamp getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
-    public void setLastAccess(Timestamp lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
-    public Timestamp getLastPasswordChange() {
+    public Date getLastPasswordChange() {
         return lastPasswordChange;
     }
 
-    public void setLastPasswordChange(Timestamp lastPasswordChange) {
+    public void setLastPasswordChange(Date lastPasswordChange) {
         this.lastPasswordChange = lastPasswordChange;
     }
 
