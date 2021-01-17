@@ -27,6 +27,7 @@ import myapplication.exceptions.DeleteException;
 import myapplication.exceptions.ReadException;
 import myapplication.exceptions.UpdateException;
 import myapplication.utils.security.AsymmetricEncryption;
+import myapplication.utils.security.Hashing;
 
 /**
  *
@@ -53,6 +54,9 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(User entity) {
         try {
+            AsymmetricEncryption ae = new AsymmetricEncryption();
+            Hashing hashing = new Hashing();
+            entity.setPassword(hashing.hashString(AsymmetricEncryption.decryptString(entity.getPassword())));
             super.create(entity);
         } catch (CreateException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,6 +97,7 @@ public class UserFacadeREST extends UserAbstractFacade {
 
     /**
      * Gets a user by id.
+     *
      * @param id
      * @return A user.
      */
@@ -109,19 +114,21 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     @GET
-    @Path("user/getPublicKey")
+    @Path("getPublicKey")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String getPublicKey() {
-       // Devuelve la clave pública
-       return DatatypeConverter.printHexBinary(AsymmetricEncryption.getPublicKey().getEncoded());
+        // Devuelve la clave pública
+        return DatatypeConverter.printHexBinary(AsymmetricEncryption.getPublicKey().getEncoded());
     }
+
     /**
      * Gets users by company name
+     *
      * @param companyName
      * @return a list of users.
      */
     @GET
-    @Path("user/getUsersByCompanyName/{companyName}")
+    @Path("getUsersByCompanyName/{companyName}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> findUsersByCompanyName(@PathParam("companyName") String companyName) {
         return super.findUsersByCompanyName(companyName);
@@ -129,23 +136,25 @@ public class UserFacadeREST extends UserAbstractFacade {
 
     /**
      * Gets users by name.
+     *
      * @param companyName
      * @return a list of Users.
      */
     @GET
-    @Path("user/getUsersByName/{name}")
+    @Path("getUsersByName/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> findUsersByName(@PathParam("name") String companyName) {
         return super.findUsersByName(companyName);
     }
-    
-        /**
+
+    /**
      * Gets all the users in the database.
+     *
      * @param companyName
      * @return a list of Users.
      */
     @GET
-    @Path("user/getAllUsers")
+    @Path("getAllUsers")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> getAllUsers() {
         return super.getAllUsers();
@@ -153,7 +162,8 @@ public class UserFacadeREST extends UserAbstractFacade {
 
     /**
      * Gets the entity manager for this class.
-     * @return 
+     *
+     * @return
      */
     @Override
     protected EntityManager getEntityManager() {
