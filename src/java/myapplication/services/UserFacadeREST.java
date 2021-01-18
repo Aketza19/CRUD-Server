@@ -93,6 +93,7 @@ public class UserFacadeREST extends UserAbstractFacade {
 
     /**
      * Gets a user by id.
+     *
      * @param id
      * @return A user.
      */
@@ -117,6 +118,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
     /**
      * Gets users by company name
+     *
      * @param companyName
      * @return a list of users.
      */
@@ -129,6 +131,7 @@ public class UserFacadeREST extends UserAbstractFacade {
 
     /**
      * Gets users by name.
+     *
      * @param companyName
      * @return a list of Users.
      */
@@ -152,8 +155,33 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     /**
+     * GET method to send a new password to the user.
+     *
+     * @param email The user email.
+     */
+    @GET
+    @Path("user/sendNewPassword/{email}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void sendNewPassword(@PathParam("email") String email) {
+        super.sendNewPassword(email);
+    }
+
+    /**
+     * GET method to recover the user password.
+     *
+     * @param email The user email.
+     */
+    @GET
+    @Path("user/recoverUserPassword/{email}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void recoverUserPassword(@PathParam("email") String email) {
+        super.recoverUserPassword(email);
+    }
+
+    /**
      * Gets the entity manager for this class.
-     * @return 
+     *
+     * @return
      */
     @Override
     protected EntityManager getEntityManager() {
