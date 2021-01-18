@@ -6,10 +6,8 @@
 package myapplication.entity;
 
 import java.io.Serializable;
-import java.security.Timestamp;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,7 +49,7 @@ public class User implements Serializable {
      * The auto generated id of the user.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * The username of the user.
@@ -97,13 +95,11 @@ public class User implements Serializable {
     /**
      * The last access of the user.
      */
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date lastAccess;
     /**
      * The last passsword change that has been made for this user.
      */
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date lastPasswordChange;
 
