@@ -161,11 +161,12 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     /**
-     * GET method to send a new password to the user.
+     * POST method to send a new password to the user.
      *
      * @param email The user email.
      */
-    @GET
+    @POST
+    @Override
     @Path("user/sendNewPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void sendNewPassword(@PathParam("email") String email) {
@@ -173,11 +174,12 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     /**
-     * GET method to recover the user password.
+     * POST method to recover the user password.
      *
      * @param email The user email.
      */
-    @GET
+    @POST
+    @Override
     @Path("user/recoverUserPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void recoverUserPassword(@PathParam("email") String email) {
