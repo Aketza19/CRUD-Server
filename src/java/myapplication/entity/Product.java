@@ -54,7 +54,7 @@ public class Product implements Serializable {
      * The price of the product.
      */
     @NotNull
-    private double price;
+    private float price;
     /**
      * The name of the product.
      */
@@ -97,7 +97,7 @@ public class Product implements Serializable {
      *
      * @return the price
      */
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
@@ -105,7 +105,7 @@ public class Product implements Serializable {
      *
      * @param price the price to be set
      */
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

@@ -50,14 +50,14 @@ public class Order implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date date;
-    private Double total_price;
+    private Float total_price;
 
     //Pregunta Enumtype: ¿Ordinal o String?
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy = "order", fetch = EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderProduct> products;
 
     @ManyToOne
@@ -80,11 +80,11 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Double getTotal_price() {
+    public Float getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(Double total_price) {
+    public void setTotal_price(Float total_price) {
         this.total_price = total_price;
     }
 

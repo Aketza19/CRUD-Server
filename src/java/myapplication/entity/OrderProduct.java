@@ -49,7 +49,7 @@ public class OrderProduct implements Serializable {
     @ManyToOne
     private Product product;
     
-    private Double total_price;
+    private Float total_price;
     private Integer total_quantity;
 
  
@@ -81,11 +81,11 @@ public class OrderProduct implements Serializable {
         this.product = product;
     }
 
-    public Double getTotal_price() {
+    public Float getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(Double total_price) {
+    public void setTotal_price(Float total_price) {
         this.total_price = total_price;
     }
 
