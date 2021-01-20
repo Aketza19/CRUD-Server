@@ -134,7 +134,8 @@ public class AsymmetricEncryption {
         try {
 
             
-            Scanner in = new Scanner(new FileReader("./" + filename));
+            //Scanner in = new Scanner(new FileReader("./" + filename));
+            Scanner in = new Scanner(new FileReader("C:\\Users\\2DAM.TARTANGALH.000\\Desktop\\CRUD-Server\\src\\java\\myapplication\\utils\\security\\" + filename));
 
             StringBuilder sb = new StringBuilder();
             while (in.hasNext()) {

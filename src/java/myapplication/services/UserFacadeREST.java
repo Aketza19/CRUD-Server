@@ -167,7 +167,7 @@ public class UserFacadeREST extends UserAbstractFacade {
      */
     @POST
     @Override
-    @Path("user/sendNewPassword/{email}")
+    @Path("sendNewPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void sendNewPassword(@PathParam("email") String email) {
         super.sendNewPassword(email);
@@ -180,10 +180,31 @@ public class UserFacadeREST extends UserAbstractFacade {
      */
     @POST
     @Override
-    @Path("user/recoverUserPassword/{email}")
+    @Path("recoverUserPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void recoverUserPassword(@PathParam("email") String email) {
         super.recoverUserPassword(email);
+    }
+
+    /**
+     *
+     * @param user
+     */
+    @POST
+    @Path("loginUser")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public User loginUser(User user) {
+        Hashing hashing = new Hashing();
+        List<User> listUser = super.findUsersByName(user.getUsername());
+        boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
+        if (correctPassword) {
+            User correctUser = listUser.get(0);
+            correctUser.setPassword(null);
+            return correctUser;
+        } else {
+            return new User();
+        }
+
     }
 
     /**

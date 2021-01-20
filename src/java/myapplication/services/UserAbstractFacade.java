@@ -38,7 +38,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      */
     public List<User> findUsersByName(String name) {
         return getEntityManager().createNamedQuery("findUsersByName")
-                .setParameter("name", name).getResultList();
+                .setParameter("username", name).getResultList();
     }
 
     /**

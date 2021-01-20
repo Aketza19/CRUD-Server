@@ -49,10 +49,6 @@ public class Hashing {
      * @return Returns true if the hashes match, false if don't
      */
     public boolean compareHash(String hashedStr, String plainText) {
-        if (!hashedStr.equals(hashString(plainText))) {
-            return false;
-        } else {
-            return true;
-        }
+        return hashedStr.equals(hashString(plainText));
     }
 }
