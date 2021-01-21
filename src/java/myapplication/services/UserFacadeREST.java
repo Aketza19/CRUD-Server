@@ -11,9 +11,11 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.security.sasl.AuthenticationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -193,16 +195,17 @@ public class UserFacadeREST extends UserAbstractFacade {
     @POST
     @Path("loginUser")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User loginUser(User user) {
+    public User loginUser(User user) throws AuthenticationException {
         Hashing hashing = new Hashing();
         List<User> listUser = super.findUsersByName(user.getUsername());
         boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
         if (correctPassword) {
             User correctUser = listUser.get(0);
-            correctUser.setPassword(null);
+            // FIXME: Al dejar la password vacio, se cambia en la base de datos tambien (no se puede devolver a null)
+            //correctUser.setPassword("");
             return correctUser;
         } else {
-            return new User();
+            throw new AuthenticationException();
         }
 
     }
