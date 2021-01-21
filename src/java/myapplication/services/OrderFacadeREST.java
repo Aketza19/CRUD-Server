@@ -43,6 +43,7 @@ public class OrderFacadeREST extends OrderAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
+    private Boolean exist= false;
 
     public OrderFacadeREST() {
         super(Order.class);
@@ -64,16 +65,35 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
         try {
-            /*Order order = super.find(entity.getId());
-            Set<OrderProduct> product = entity.getProducts();
-            for(OrderProduct o1 : order.getProducts()){
-            Tengo que recorrer la orden, ver que los id de los productos son iguales a los de la entidad,
-            y hacer un set de la id embebida y de la orden.
+            
+            Order order = super.find(entity.getId());
+            for(OrderProduct entityProduct : entity.getProducts()){
+                for(OrderProduct findedProduct : order.getProducts()){
+                    if(entityProduct.getId().equals(findedProduct.getId())){
+                        findedProduct.setTotal_quantity(entityProduct.getTotal_quantity());
+                        entityProduct.setOrder(findedProduct.getOrder());
+                    }
+                }
+            }
+            //Codigo para borrar las restantes
+            /*for(OrderProduct findedProduct : order.getProducts()){
+                exist=false;
+                for(OrderProduct entityProduct : entity.getProducts()){
+                    if(entityProduct.getId().equals(findedProduct.getId())){
+                        findedProduct.setTotal_quantity(entityProduct.getTotal_quantity());
+                        entityProduct.setOrder(findedProduct.getOrder());
+                    }
+                }
+                if(exist){
+                    super.remove(findedProduct.getId());
+                }
             }*/
-            super.edit(entity);
+            super.edit(entity);            
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
+        } catch (ReadException ex) {
+            Logger.getLogger(OrderFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         } /*catch (ReadException ex) {
             Logger.getLogger(OrderFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }*/

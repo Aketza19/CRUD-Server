@@ -40,7 +40,6 @@ public class OrderProduct implements Serializable {
      */
     @MapsId("orderId")
     @ManyToOne
-    @JoinColumn(name = "order_id")
     private Order order;
     
     /**
@@ -49,7 +48,6 @@ public class OrderProduct implements Serializable {
     
     @MapsId("productId")
     @ManyToOne
-    @JoinColumn(name = "product_id")
     private Product product;
     
     private Float total_price;
