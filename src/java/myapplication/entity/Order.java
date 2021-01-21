@@ -57,7 +57,7 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     //Define the relation to OrderProduct table. 
-    @OneToMany(mappedBy = "order", fetch = EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = EAGER, orphanRemoval = true)
     private Set<OrderProduct> products;
 
     @ManyToOne

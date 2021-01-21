@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -39,6 +40,7 @@ public class OrderProduct implements Serializable {
      */
     @MapsId("orderId")
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order order;
     
     /**
@@ -47,6 +49,7 @@ public class OrderProduct implements Serializable {
     
     @MapsId("productId")
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
     
     private Float total_price;

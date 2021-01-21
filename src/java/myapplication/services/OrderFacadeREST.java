@@ -5,6 +5,7 @@
  */
 package myapplication.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -63,11 +64,19 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
         try {
+            /*Order order = super.find(entity.getId());
+            Set<OrderProduct> product = entity.getProducts();
+            for(OrderProduct o1 : order.getProducts()){
+            Tengo que recorrer la orden, ver que los id de los productos son iguales a los de la entidad,
+            y hacer un set de la id embebida y de la orden.
+            }*/
             super.edit(entity);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
-        }
+        } /*catch (ReadException ex) {
+            Logger.getLogger(OrderFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 
     @DELETE
@@ -101,7 +110,8 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Order> findAllOrders() {
      try {
-            return super.findAllOrders();
+            Set<Order> orders = super.findAllOrders();
+            return orders;
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
