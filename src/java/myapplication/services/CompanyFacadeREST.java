@@ -1,5 +1,6 @@
 package myapplication.services;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -16,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Company;
+import myapplication.entity.User;
 import myapplication.exceptions.CreateException;
 import myapplication.exceptions.DeleteException;
 import myapplication.exceptions.ReadException;
@@ -65,6 +67,9 @@ public class CompanyFacadeREST extends CompanyAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Company entity) {
         try {
+            Set<User> users = new HashSet();
+            users.clear();
+            entity.setUsers(users);
             super.edit(entity);
         } catch (UpdateException ex) {
             LOGGER.severe(ex.getMessage());
