@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
@@ -21,6 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 import myapplication.entity.User;
 import myapplication.exceptions.CreateException;
@@ -57,17 +59,21 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(User entity) {
         try {
+            // At first, searches for the email and the username in the database. If they exist, an exception is thrown.
             super.findUserByEmail(entity.getEmail());
             super.findUserByUsername(entity.getUsername());
+            // Creates a new Asymmetric encryption and hasing object.
             AsymmetricEncryption ae = new AsymmetricEncryption();
             Hashing hashing = new Hashing();
+            // Decrypts the password using the private key, hashes it and saves it to the current user object.
             entity.setPassword(hashing.hashString(AsymmetricEncryption.decryptString(entity.getPassword())));
+            // Stores the user in the database.
             super.create(entity);
         } catch (CreateException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EmailAlreadyExistsException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NotAuthorizedException("Email already exists");
+            throw new ForbiddenException("Email already exists");
         } catch (UsernameAlreadyExistsException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
             throw new NotAuthorizedException("Username already exists");
