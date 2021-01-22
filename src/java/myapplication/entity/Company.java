@@ -21,8 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity representating the Companies. It contains the following fields:
- * company id, company name, company type, company localization and company
- * amount of users.
+ * company id, company name, company type and company localization.
  *
  * @author Iker de la Cruz
  */
@@ -64,7 +63,7 @@ public class Company implements Serializable {
     /**
      * Relational field containing the list of users on the company.
      */
-    @OneToMany(mappedBy = "company", fetch = EAGER, orphanRemoval= true)
+    @OneToMany(mappedBy = "company", fetch = EAGER, orphanRemoval = true)
     private Set<User> users;
 
     /**

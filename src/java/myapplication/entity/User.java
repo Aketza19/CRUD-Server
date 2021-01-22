@@ -6,10 +6,8 @@
 package myapplication.entity;
 
 import java.io.Serializable;
-import java.security.Timestamp;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,7 +38,13 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(name = "getAllUsers", query = "SELECT u FROM User u")
     ,
-    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.name= :name"),})
+    @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.username= :username")
+    ,
+     @NamedQuery(name = "findUsersByUsername", query = "SELECT u FROM User u WHERE u.username= :username")
+    ,
+       @NamedQuery(name = "findUsersByEmail", query = "SELECT u FROM User u WHERE u.email= :email")
+    ,
+    @NamedQuery(name = "getPasswordByEmail", query = "SELECT u.password FROM User u WHERE u.email = :email"),})
 @XmlRootElement
 public class User implements Serializable {
 
@@ -49,7 +53,7 @@ public class User implements Serializable {
      * The auto generated id of the user.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * The username of the user.
@@ -71,7 +75,7 @@ public class User implements Serializable {
     /**
      * The Surname of the user
      */
-    
+
     @NotNull
     private String surname;
 
@@ -95,13 +99,11 @@ public class User implements Serializable {
     /**
      * The last access of the user.
      */
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date lastAccess;
     /**
      * The last passsword change that has been made for this user.
      */
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date lastPasswordChange;
 
