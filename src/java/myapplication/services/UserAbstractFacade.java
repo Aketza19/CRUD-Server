@@ -7,6 +7,8 @@ package myapplication.services;
 
 import java.util.List;
 import myapplication.entity.User;
+import myapplication.exceptions.EmailAlreadyExistsException;
+import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.email.EmailService;
 
 /**
@@ -69,10 +71,47 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
         // TODO: Coger las credenciales del emisor desde los ficheros encriptados.
         EmailService.recoverUserPassword("almazon.passw.restore@gmail.com", "AitanaWar88", email, password);
     }
-    
-     public List<User> getAllUsers() {
+
+    /**
+     * Gets the list of user stored in the database.
+     *
+     * @return A list of users.
+     */
+    public List<User> getAllUsers() {
         return getEntityManager().createNamedQuery("getAllUsers").getResultList();
     }
-    
-    
+
+    /**
+     * Finds usernames by email.
+     *
+     * @param email The email to find.
+     * @return An array of users with that email.
+     * @throws myapplication.exceptions.EmailAlreadyExistsException
+     */
+    public List<User> findUserByEmail(String email) throws EmailAlreadyExistsException {
+        List<User> userList = getEntityManager().createNamedQuery("findUsersByEmail")
+                .setParameter("email", email).getResultList();
+
+        if (!userList.isEmpty()) {
+            throw new EmailAlreadyExistsException();
+        }
+        return userList;
+    }
+
+    /**
+     * Finds usernames by username.
+     *
+     * @param username The email to find.
+     * @return An array of users with that email.
+     * @throws myapplication.exceptions.UsernameAlreadyExistsException
+     */
+    public List<User> findUserByUsername(String username) throws UsernameAlreadyExistsException {
+        List<User> userList = getEntityManager().createNamedQuery("findUsersByUsername")
+                .setParameter("username", username).getResultList();
+
+        if (!userList.isEmpty()) {
+            throw new UsernameAlreadyExistsException();
+        }
+        return userList;
+    }
 }

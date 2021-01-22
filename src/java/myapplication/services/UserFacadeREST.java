@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,8 +25,10 @@ import javax.xml.bind.DatatypeConverter;
 import myapplication.entity.User;
 import myapplication.exceptions.CreateException;
 import myapplication.exceptions.DeleteException;
+import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.ReadException;
 import myapplication.exceptions.UpdateException;
+import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.security.AsymmetricEncryption;
 import myapplication.utils.security.Hashing;
 
@@ -54,12 +57,20 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(User entity) {
         try {
+            super.findUserByEmail(entity.getEmail());
+            super.findUserByUsername(entity.getUsername());
             AsymmetricEncryption ae = new AsymmetricEncryption();
             Hashing hashing = new Hashing();
             entity.setPassword(hashing.hashString(AsymmetricEncryption.decryptString(entity.getPassword())));
             super.create(entity);
         } catch (CreateException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailAlreadyExistsException ex) {
+            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NotAuthorizedException("Email already exists");
+        } catch (UsernameAlreadyExistsException ex) {
+            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NotAuthorizedException("Username already exists");
         }
     }
 
