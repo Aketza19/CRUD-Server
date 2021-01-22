@@ -40,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.username= :username")
     ,
+     @NamedQuery(name = "findUsersByUsername", query = "SELECT u FROM User u WHERE u.username= :username")
+    ,
+       @NamedQuery(name = "findUsersByEmail", query = "SELECT u FROM User u WHERE u.email= :email")
+    ,
     @NamedQuery(name = "getPasswordByEmail", query = "SELECT u.password FROM User u WHERE u.email = :email"),})
 @XmlRootElement
 public class User implements Serializable {
@@ -71,7 +75,7 @@ public class User implements Serializable {
     /**
      * The Surname of the user
      */
-    
+
     @NotNull
     private String surname;
 

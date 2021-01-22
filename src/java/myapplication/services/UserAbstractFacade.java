@@ -8,6 +8,8 @@ package myapplication.services;
 import java.util.List;
 import java.util.ResourceBundle;
 import myapplication.entity.User;
+import myapplication.exceptions.EmailAlreadyExistsException;
+import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.email.EmailService;
 import myapplication.utils.security.AsymmetricEncryption;
 import myapplication.utils.security.Hashing;
@@ -98,8 +100,46 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
         EmailService.recoverUserPassword(transmitterEmail, transmitterPassword, email, password);
     }
 
+    /**
+     * Gets the list of user stored in the database.
+     *
+     * @return A list of users.
+     */
     public List<User> getAllUsers() {
         return getEntityManager().createNamedQuery("getAllUsers").getResultList();
     }
 
+    /**
+     * Finds usernames by email.
+     *
+     * @param email The email to find.
+     * @return An array of users with that email.
+     * @throws myapplication.exceptions.EmailAlreadyExistsException
+     */
+    public List<User> findUserByEmail(String email) throws EmailAlreadyExistsException {
+        List<User> userList = getEntityManager().createNamedQuery("findUsersByEmail")
+                .setParameter("email", email).getResultList();
+
+        if (!userList.isEmpty()) {
+            throw new EmailAlreadyExistsException();
+        }
+        return userList;
+    }
+
+    /**
+     * Finds usernames by username.
+     *
+     * @param username The email to find.
+     * @return An array of users with that email.
+     * @throws myapplication.exceptions.UsernameAlreadyExistsException
+     */
+    public List<User> findUserByUsername(String username) throws UsernameAlreadyExistsException {
+        List<User> userList = getEntityManager().createNamedQuery("findUsersByUsername")
+                .setParameter("username", username).getResultList();
+
+        if (!userList.isEmpty()) {
+            throw new UsernameAlreadyExistsException();
+        }
+        return userList;
+    }
 }
