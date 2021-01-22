@@ -11,11 +11,13 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.security.sasl.AuthenticationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -178,27 +180,51 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     /**
-     * GET method to send a new password to the user.
+     * POST method to send a new password to the user.
      *
      * @param email The user email.
      */
-    @GET
-    @Path("user/sendNewPassword/{email}")
+    @POST
+    @Override
+    @Path("sendNewPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void sendNewPassword(@PathParam("email") String email) {
         super.sendNewPassword(email);
     }
 
     /**
-     * GET method to recover the user password.
+     * POST method to recover the user password.
      *
      * @param email The user email.
      */
-    @GET
-    @Path("user/recoverUserPassword/{email}")
+    @POST
+    @Override
+    @Path("recoverUserPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void recoverUserPassword(@PathParam("email") String email) {
         super.recoverUserPassword(email);
+    }
+
+    /**
+     *
+     * @param user
+     */
+    @POST
+    @Path("loginUser")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public User loginUser(User user) throws AuthenticationException {
+        Hashing hashing = new Hashing();
+        List<User> listUser = super.findUsersByName(user.getUsername());
+        boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
+        if (correctPassword) {
+            User correctUser = listUser.get(0);
+            // FIXME: Al dejar la password vacio, se cambia en la base de datos tambien (no se puede devolver a null)
+            //correctUser.setPassword("");
+            return correctUser;
+        } else {
+            throw new AuthenticationException();
+        }
+
     }
 
     /**
