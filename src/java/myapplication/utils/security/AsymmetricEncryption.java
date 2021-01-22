@@ -89,7 +89,6 @@ public class AsymmetricEncryption {
     public static PublicKey getPublicKey() {
         try {
             String filename = "public-key.key";
-            //byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
             byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
 
             X509EncodedKeySpec spec
