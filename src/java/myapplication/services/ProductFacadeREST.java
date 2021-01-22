@@ -5,7 +5,7 @@
  */
 package myapplication.services;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import java.util.logging.Logger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,13 +37,15 @@ import myapplication.exceptions.UpdateException;
 @Path("product")
 public class ProductFacadeREST extends ProductAbstractFacade {
 
+    private static final Logger LOGGER = Logger.getLogger(ProductFacadeREST.class.getName());
+    
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
 
     public ProductFacadeREST() {
         super(Product.class);
     }
-
+    
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

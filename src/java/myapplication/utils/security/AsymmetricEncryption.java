@@ -89,7 +89,6 @@ public class AsymmetricEncryption {
     public static PublicKey getPublicKey() {
         try {
             String filename = "public-key.key";
-            //byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
             byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
 
             X509EncodedKeySpec spec
@@ -134,7 +133,8 @@ public class AsymmetricEncryption {
         try {
 
             
-            Scanner in = new Scanner(new FileReader("./" + filename));
+            //Scanner in = new Scanner(new FileReader("./" + filename));
+            Scanner in = new Scanner(new FileReader("C:\\Users\\2DAM.TARTANGALH.000\\Desktop\\CRUD-Server\\src\\java\\myapplication\\utils\\security\\" + filename));
 
             StringBuilder sb = new StringBuilder();
             while (in.hasNext()) {

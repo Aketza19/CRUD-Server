@@ -5,7 +5,10 @@
  */
 package myapplication.services;
 
+import static java.lang.Math.log;
+import static java.rmi.server.LogStream.log;
 import java.util.List;
+import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import myapplication.exceptions.CreateException;
@@ -28,34 +31,36 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) throws CreateException{
-        try{
+    public void create(T entity) throws CreateException {
+        try {
             getEntityManager().persist(entity);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new CreateException(e.getMessage());
+          //  e.getConstraintViolations().forEach(err -> log.log(Level.SEVERE, err.toString()));
+
         }
     }
 
     public void edit(T entity) throws UpdateException {
-        try{
+        try {
             getEntityManager().merge(entity);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new UpdateException(e.getMessage());
         }
     }
 
     public void remove(T entity) throws DeleteException {
-        try{
+        try {
             getEntityManager().remove(getEntityManager().merge(entity));
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new DeleteException(e.getMessage());
         }
     }
 
-    public T find(Object id) throws ReadException{
-        try{
+    public T find(Object id) throws ReadException {
+        try {
             return getEntityManager().find(entityClass, id);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }
     }

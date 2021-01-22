@@ -18,13 +18,17 @@ import java.util.logging.Logger;
  */
 public class Hashing {
 
+    public Hashing() {
+    }
+
+    
     /**
      * Generates a hash for a String using SHA-256
      *
      * @param text The text to hash.
      * @return The hash.
      */
-    public static String hashString(String text) {
+    public String hashString(String text) {
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
@@ -44,11 +48,7 @@ public class Hashing {
      * @param plainText The plain text
      * @return Returns true if the hashes match, false if don't
      */
-    public static boolean compareHash(String hashedStr, String plainText) {
-        if (!hashedStr.equals(hashString(plainText))) {
-            return false;
-        } else {
-            return true;
-        }
+    public boolean compareHash(String hashedStr, String plainText) {
+        return hashedStr.equals(hashString(plainText));
     }
 }
