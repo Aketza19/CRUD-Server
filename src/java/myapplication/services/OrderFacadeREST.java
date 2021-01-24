@@ -80,8 +80,8 @@ public class OrderFacadeREST extends OrderAbstractFacade {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         } catch (ReadException ex) {
-            LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e.getMessage());
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
         }
     }
 
