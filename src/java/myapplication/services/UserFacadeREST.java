@@ -5,7 +5,11 @@
  */
 package myapplication.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -206,6 +210,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     }
 
     /**
+     * POST method to do login.
      *
      * @param user
      */
@@ -218,13 +223,16 @@ public class UserFacadeREST extends UserAbstractFacade {
         boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
         if (correctPassword) {
             User correctUser = listUser.get(0);
+            // Get the Date from the given logged user
+            Date currentDate = (Date) user.getLastAccess();
+            // Set the new Date to the logged user in the database
+            correctUser.setLastAccess(currentDate);
             // FIXME: Al dejar la password vacio, se cambia en la base de datos tambien (no se puede devolver a null)
             //correctUser.setPassword("");
             return correctUser;
         } else {
             throw new AuthenticationException();
         }
-
     }
 
     /**
