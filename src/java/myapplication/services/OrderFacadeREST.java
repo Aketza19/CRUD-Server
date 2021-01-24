@@ -65,38 +65,24 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
         try {
-            
             Order order = super.find(entity.getId());
             for(OrderProduct entityProduct : entity.getProducts()){
                 for(OrderProduct findedProduct : order.getProducts()){
                     if(entityProduct.getId().equals(findedProduct.getId())){
                         findedProduct.setTotal_quantity(entityProduct.getTotal_quantity());
+                        findedProduct.setTotal_price(entityProduct.getTotal_price());
                         entityProduct.setOrder(findedProduct.getOrder());
                     }
                 }
             }
-            //Codigo para borrar las restantes
-            /*for(OrderProduct findedProduct : order.getProducts()){
-                exist=false;
-                for(OrderProduct entityProduct : entity.getProducts()){
-                    if(entityProduct.getId().equals(findedProduct.getId())){
-                        findedProduct.setTotal_quantity(entityProduct.getTotal_quantity());
-                        entityProduct.setOrder(findedProduct.getOrder());
-                    }
-                }
-                if(exist){
-                    super.remove(findedProduct.getId());
-                }
-            }*/
             super.edit(entity);            
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         } catch (ReadException ex) {
-            Logger.getLogger(OrderFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (ReadException ex) {
-            Logger.getLogger(OrderFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     @DELETE
