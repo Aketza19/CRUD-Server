@@ -5,6 +5,7 @@
  */
 package myapplication.services;
 
+import com.sun.javafx.scene.control.skin.FXVK;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -176,11 +177,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Path("getAllUsers")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> getAllUsers() {
-        List<User> userList = super.getAllUsers();
-//        userList.forEach((user) -> {
-//            user.setPassword("");
-//        });
-        return userList;
+        return super.getAllUsers();
     }
 
     /**

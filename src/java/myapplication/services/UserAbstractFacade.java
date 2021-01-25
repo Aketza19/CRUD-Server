@@ -6,6 +6,7 @@
 package myapplication.services;
 
 import java.util.List;
+import javax.transaction.Transactional;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
@@ -16,7 +17,7 @@ import myapplication.utils.email.EmailService;
  * @author 2dam
  */
 public abstract class UserAbstractFacade extends AbstractFacade<User> {
-
+    
     public UserAbstractFacade(Class<User> entityClass) {
         super(entityClass);
     }
@@ -78,7 +79,13 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @return A list of users.
      */
     public List<User> getAllUsers() {
-        return getEntityManager().createNamedQuery("getAllUsers").getResultList();
+        
+        List<User> userList = getEntityManager().createNamedQuery("getAllUsers").getResultList();
+        userList.forEach((user) -> {
+            getEntityManager().detach(user);
+            user.setPassword("");
+        });
+        return userList;
     }
 
     /**
@@ -91,7 +98,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
     public List<User> findUserByEmail(String email) throws EmailAlreadyExistsException {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByEmail")
                 .setParameter("email", email).getResultList();
-
+        
         if (!userList.isEmpty()) {
             throw new EmailAlreadyExistsException();
         }
@@ -108,7 +115,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
     public List<User> findUserByUsername(String username) throws UsernameAlreadyExistsException {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByUsername")
                 .setParameter("username", username).getResultList();
-
+        
         if (!userList.isEmpty()) {
             throw new UsernameAlreadyExistsException();
         }
