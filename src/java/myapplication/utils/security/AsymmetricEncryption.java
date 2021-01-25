@@ -7,6 +7,10 @@ package myapplication.utils.security;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -130,19 +134,11 @@ public class AsymmetricEncryption {
      * @return The content of the file.
      */
     public static String getFileContentAsString(String filename) {
-        try {
-
-            
-            //Scanner in = new Scanner(new FileReader("./" + filename));
-            Scanner in = new Scanner(new FileReader("C:\\Users\\2DAM.TARTANGALH.000\\Desktop\\CRUD-Server\\src\\java\\myapplication\\utils\\security\\" + filename));
-
-            StringBuilder sb = new StringBuilder();
-            while (in.hasNext()) {
-                sb.append(in.next());
-            }
-            in.close();
-            return sb.toString();
-        } catch (FileNotFoundException ex) {
+       try {
+            return new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename).toURI())));
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
