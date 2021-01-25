@@ -26,16 +26,19 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  *
  * @author Mikel
  */
 @Entity
+@DynamicUpdate
 @Table(name = "user", schema = "almazon")
 @NamedQueries({
     @NamedQuery(name = "findUsersByCompanyName", query = "SELECT u FROM User u, Company c WHERE u.company.id=c.id AND c.name=:companyName")
     ,
+    //@NamedQuery(name = "getAllUsers", query = "SELECT u.name, u.surname,u.username, u.lastAccess,u.lastPasswordChange, u.email, u.company, u.id, u.privilege, u.status,u.password FROM User u")
     @NamedQuery(name = "getAllUsers", query = "SELECT u FROM User u")
     ,
     @NamedQuery(name = "findUsersByName", query = "SELECT u FROM User u WHERE u.username= :username")
