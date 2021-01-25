@@ -171,7 +171,7 @@ public class EmailService {
     public static String sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
         String newPassword = generatePassayPassword();
         EmailService emailService = new EmailService(transmitterEmail,
-                transmitterPassword, "smtp.gmail.com", 587);
+                transmitterPassword, "smtp.gmail.com", 25);
         try {
             emailService.sendMail(receiverEmail, "New password",
                     newPassword);
@@ -194,7 +194,7 @@ public class EmailService {
      */
     public static void recoverUserPassword(String transmitterEmail, String transmitterPassword, String receiverEmail, String userPassword) {
         EmailService emailService = new EmailService(transmitterEmail,
-                transmitterPassword, "smtp.gmail.com", 587);
+                transmitterPassword, "smtp.gmail.com", 25);
         try {
             emailService.sendMail(receiverEmail, "Recover password",
                     userPassword);
