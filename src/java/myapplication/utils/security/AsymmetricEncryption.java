@@ -116,7 +116,7 @@ public class AsymmetricEncryption {
      */
     public static PublicKey getPublicKey() {
         try {
-            String filename = "public-key.key";
+            String filename = rb.getString("PUBLIC_KEY_NAME");
 
             byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
             //  byte[] keyBytes = getPublicFileKey();
@@ -139,7 +139,7 @@ public class AsymmetricEncryption {
      */
     public static PrivateKey getPrivateKey() {
         try {
-            String filename = "private-key.key";
+            String filename = rb.getString("PRIVATE_KEY_NAME");
             byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -160,29 +160,12 @@ public class AsymmetricEncryption {
      */
     public static String getFileContentAsString(String filename) {
         try {
-            //        try {
-//
-//            //System.out.println("Dirección: " + new File("").getAbsolutePath());
-//            Scanner in = new Scanner(new FileReader(new File("").getAbsolutePath() + "\\" + rb.getString("PUBLIC_KEY_NAME")));
-//            StringBuilder sb = new StringBuilder();
-//            while (in.hasNext()) {
-//                sb.append(in.next());
-//            }
-//            in.close();
-//            return sb.toString();
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//       
-//        return null;
-            String e = new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename).toURI())));
-            return e;
+            return new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename).toURI())));
         } catch (URISyntaxException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return null;
     }
 
