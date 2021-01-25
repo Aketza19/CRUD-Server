@@ -5,9 +5,15 @@
  */
 package myapplication.utils.security;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -20,6 +26,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -62,6 +69,23 @@ public class AsymmetricEncryption {
         return null;
     }
 
+    public static byte[] getPublicFileKey() throws IOException {
+
+        InputStream keyfis = AsymmetricEncryption.class.getClassLoader()
+                .getResourceAsStream("myapplication/utils/security/public-key.key");
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        // read bytes from the input stream and store them in buffer
+        while ((len = keyfis.read(buffer)) != -1) {
+            // write bytes from the buffer into output stream
+            os.write(buffer, 0, len);
+        }
+        keyfis.close();
+        return os.toByteArray();
+    }
+
     /**
      * Decrypts a string using the private key.
      *
@@ -93,8 +117,9 @@ public class AsymmetricEncryption {
     public static PublicKey getPublicKey() {
         try {
             String filename = "public-key.key";
-            byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
 
+            byte[] keyBytes = DatatypeConverter.parseHexBinary(getFileContentAsString(filename));
+            //  byte[] keyBytes = getPublicFileKey();
             X509EncodedKeySpec spec
                     = new X509EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -135,17 +160,29 @@ public class AsymmetricEncryption {
      */
     public static String getFileContentAsString(String filename) {
         try {
-            //System.out.println("Dirección: " + new File("").getAbsolutePath());
-            Scanner in = new Scanner(new FileReader(new File("").getAbsolutePath() + "\\" + rb.getString("PUBLIC_KEY_NAME")));
-            StringBuilder sb = new StringBuilder();
-            while (in.hasNext()) {
-                sb.append(in.next());
-            }
-            in.close();
-            return sb.toString();
-        } catch (FileNotFoundException ex) {
+            //        try {
+//
+//            //System.out.println("Dirección: " + new File("").getAbsolutePath());
+//            Scanner in = new Scanner(new FileReader(new File("").getAbsolutePath() + "\\" + rb.getString("PUBLIC_KEY_NAME")));
+//            StringBuilder sb = new StringBuilder();
+//            while (in.hasNext()) {
+//                sb.append(in.next());
+//            }
+//            in.close();
+//            return sb.toString();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//       
+//        return null;
+            String e = new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename + ".key").toURI())));
+            return e;
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
 
