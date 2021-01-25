@@ -175,7 +175,7 @@ public class AsymmetricEncryption {
 //        }
 //       
 //        return null;
-            String e = new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename + ".key").toURI())));
+            String e = new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename).toURI())));
             return e;
         } catch (URISyntaxException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
