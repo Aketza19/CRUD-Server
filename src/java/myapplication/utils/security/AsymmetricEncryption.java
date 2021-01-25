@@ -7,6 +7,7 @@ package myapplication.utils.security;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -134,7 +135,8 @@ public class AsymmetricEncryption {
      */
     public static String getFileContentAsString(String filename) {
         try {
-            Scanner in = new Scanner(new FileReader(rb.getString("PUBLIC_KEY_PATH")));
+            //System.out.println("Dirección: " + new File("").getAbsolutePath());
+            Scanner in = new Scanner(new FileReader(new File("").getAbsolutePath() + "\\" + rb.getString("PUBLIC_KEY_NAME")));
             StringBuilder sb = new StringBuilder();
             while (in.hasNext()) {
                 sb.append(in.next());
