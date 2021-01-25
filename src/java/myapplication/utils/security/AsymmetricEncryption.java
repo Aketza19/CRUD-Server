@@ -14,6 +14,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,8 @@ import javax.xml.bind.DatatypeConverter;
  * @author Mikel
  */
 public class AsymmetricEncryption {
+
+    private static ResourceBundle rb = ResourceBundle.getBundle("myapplication.config.config");
 
     /**
      * Generates RSA Keys. This method shoudn't be called as the keys are
@@ -131,11 +134,7 @@ public class AsymmetricEncryption {
      */
     public static String getFileContentAsString(String filename) {
         try {
-
-            
-            //Scanner in = new Scanner(new FileReader("./" + filename));
-            Scanner in = new Scanner(new FileReader("C:\\Users\\2DAM.TARTANGALH.000\\Desktop\\CRUD-Server\\src\\java\\myapplication\\utils\\security\\" + filename));
-
+            Scanner in = new Scanner(new FileReader(rb.getString("PUBLIC_KEY_PATH")));
             StringBuilder sb = new StringBuilder();
             while (in.hasNext()) {
                 sb.append(in.next());
