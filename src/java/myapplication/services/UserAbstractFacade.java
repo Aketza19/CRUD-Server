@@ -5,10 +5,12 @@
  */
 package myapplication.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.security.sasl.AuthenticationException;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
@@ -148,5 +150,37 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
             throw new UsernameAlreadyExistsException();
         }
         return userList;
+    }
+
+    /**
+     * Method to logging the given user. It checks if the given username exists
+     * in the database and compare the given password with the database password
+     * (the given password will be decrypt and hashed to compare with the hashed
+     * password in the database). If the credentials are correct, the method
+     * will return the user without the password.
+     *
+     * @param user The user trying to logging.
+     * @return The logged user without password.
+     * @throws AuthenticationException
+     */
+    public User loginUser(User user) throws AuthenticationException {
+        Hashing hashing = new Hashing();
+        List<User> listUser = this.findUsersByName(user.getUsername());
+        boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
+        if (correctPassword) {
+            User correctUser = listUser.get(0);
+            // Get the Date from the given logged user
+            Date currentDate = (Date) user.getLastAccess();
+            // Set the new Date to the logged user in the database
+            correctUser.setLastAccess(currentDate);
+            // Detach the correct user from the database to send back to the client
+            // without the password. If we don't detach the user, the changes we do
+            // will be affect in the database too
+            getEntityManager().detach(correctUser);
+            correctUser.setPassword(null);
+            return correctUser;
+        } else {
+            throw new AuthenticationException();
+        }
     }
 }
