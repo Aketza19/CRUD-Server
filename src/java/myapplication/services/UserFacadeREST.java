@@ -5,7 +5,6 @@
  */
 package myapplication.services;
 
-import com.sun.javafx.scene.control.skin.FXVK;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,20 +16,20 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAllowedException;
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 import myapplication.entity.User;
 import myapplication.exceptions.CreateException;
 import myapplication.exceptions.DeleteException;
 import myapplication.exceptions.EmailAlreadyExistsException;
+import myapplication.exceptions.EmailAndUsernameAlreadyExistException;
 import myapplication.exceptions.ReadException;
 import myapplication.exceptions.UpdateException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
@@ -63,8 +62,18 @@ public class UserFacadeREST extends UserAbstractFacade {
     public void create(User entity) {
         try {
             // At first, searches for the email and the username in the database. If they exist, an exception is thrown.
-            super.findUserByEmail(entity.getEmail());
-            super.findUserByUsername(entity.getUsername());
+            List<User> userListEmail = null;
+            List<User> userListUsername = null;
+            userListUsername = super.findUserByUsername(entity.getUsername());
+            userListEmail = super.findUserByEmail(entity.getEmail());
+            if (!userListEmail.isEmpty() && !userListUsername.isEmpty()) {
+                throw new EmailAndUsernameAlreadyExistException();
+            }else if(!userListEmail.isEmpty()){
+                throw new EmailAlreadyExistsException();
+            }else if(!userListUsername.isEmpty()){
+                throw new UsernameAlreadyExistsException();
+            }
+
             // Creates a new Asymmetric encryption and hasing object.
             AsymmetricEncryption ae = new AsymmetricEncryption();
             Hashing hashing = new Hashing();
@@ -80,6 +89,9 @@ public class UserFacadeREST extends UserAbstractFacade {
         } catch (UsernameAlreadyExistsException ex) {
             Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
             throw new NotAuthorizedException("Username already exists");
+        } catch (EmailAndUsernameAlreadyExistException ex) {
+            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NotAllowedException("Email and username already exist.");
         }
     }
 
@@ -133,11 +145,16 @@ public class UserFacadeREST extends UserAbstractFacade {
         return null;
     }
 
+    /**
+     * Returns the public key.
+     *
+     * @return
+     */
     @GET
     @Path("getPublicKey")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String getPublicKey() {
-        // Devuelve la clave pública
+        // returns the public key
         return DatatypeConverter.printHexBinary(AsymmetricEncryption.getPublicKey().getEncoded());
     }
 

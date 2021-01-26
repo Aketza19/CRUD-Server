@@ -99,9 +99,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByEmail")
                 .setParameter("email", email).getResultList();
         
-        if (!userList.isEmpty()) {
-            throw new EmailAlreadyExistsException();
-        }
+
         return userList;
     }
 
@@ -115,10 +113,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
     public List<User> findUserByUsername(String username) throws UsernameAlreadyExistsException {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByUsername")
                 .setParameter("username", username).getResultList();
-        
-        if (!userList.isEmpty()) {
-            throw new UsernameAlreadyExistsException();
-        }
+
         return userList;
     }
 }
