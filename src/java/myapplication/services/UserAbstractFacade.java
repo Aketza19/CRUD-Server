@@ -7,6 +7,8 @@ package myapplication.services;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
@@ -21,6 +23,7 @@ import myapplication.utils.security.Hashing;
 public abstract class UserAbstractFacade extends AbstractFacade<User> {
 
     private static final ResourceBundle rb = ResourceBundle.getBundle("config.config");
+    private static final Logger logger = Logger.getLogger("myapplication.services.UserAbstractFacade");
 
     public UserAbstractFacade(Class<User> entityClass) {
         super(entityClass);
@@ -56,27 +59,31 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @param email The user email.
      */
     public void sendNewPassword(String email) {
-        // Get the transmitter encrypted email from the config file
-        String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
-        // Get the transmitter encrypted password from the config file
-        String transmitterPassword = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_PASS"));
-        // TODO: Si no se encuentra el correo en la base de datos, lanzar una excepcion
-        // Call the sendNewPassword method with the transmitter credentials and user email and get the new password
-        String newPassword = EmailService.sendNewPassword(transmitterEmail, transmitterPassword, email);
+        boolean finded = false;
+
         // Get all users and compare the sended email to the user's email
         List<User> allUsers = getAllUsers();
         for (User user : allUsers) {
             // If the email are equals, update the user with the new password hashed in the database
             if (user.getEmail().equals(email)) {
+                finded = true;
+                // Get the transmitter encrypted email from the config file
+                String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
+                // Get the transmitter encrypted password from the config file
+                String transmitterPassword = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_PASS"));
+                // Call the sendNewPassword method with the transmitter credentials and user email and get the new password
+                String newPassword = EmailService.sendNewPassword(transmitterEmail, transmitterPassword, email);
+
                 // Convert the password in a hash String
                 Hashing hashNewPass = new Hashing();
                 String newPass = hashNewPass.hashString(newPassword);
                 // Update the current user with the new password hashed
                 user.setPassword(newPass);
-                UserFacadeREST userRest = new UserFacadeREST();
-                userRest.edit(user);
                 break;
             }
+        }
+        if (!finded) {
+            logger.log(Level.INFO, email + " not found in the database");
         }
     }
 
