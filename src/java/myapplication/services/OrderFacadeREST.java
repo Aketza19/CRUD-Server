@@ -54,7 +54,6 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
         try {
-            //EL PROBLEMA ESTÁ AQUÍ!!!
             for(OrderProduct entityProduct : entity.getProducts()){
                 entityProduct.setOrder(entity);
             }
