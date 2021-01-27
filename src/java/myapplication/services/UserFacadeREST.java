@@ -230,7 +230,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     @POST
     @Path("loginUser")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User loginUser(User user) throws AuthenticationException {
+    public User loginUser(User user) throws NotAuthorizedException {
         Hashing hashing = new Hashing();
         List<User> listUser = super.findUsersByName(user.getUsername());
         boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
@@ -240,7 +240,7 @@ public class UserFacadeREST extends UserAbstractFacade {
             //correctUser.setPassword("");
             return correctUser;
         } else {
-            throw new AuthenticationException();
+            throw new NotAuthorizedException("Error");
         }
 
     }
