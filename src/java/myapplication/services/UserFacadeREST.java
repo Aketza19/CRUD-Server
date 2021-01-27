@@ -227,6 +227,7 @@ public class UserFacadeREST extends UserAbstractFacade {
      * POST method to do login.
      *
      * @param user
+     * @return 
      */
     @POST
     @Path("loginUser")
