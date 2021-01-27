@@ -26,7 +26,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
-import org.apache.commons.io.IOUtils;
 
 /**
  *

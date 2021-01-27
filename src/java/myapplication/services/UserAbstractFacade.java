@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.NotAuthorizedException;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
+import myapplication.exceptions.UpdateException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.email.EmailService;
 import myapplication.utils.security.AsymmetricEncryption;
@@ -63,15 +64,15 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      *
      * @param email The user email.
      */
-    public void sendNewPassword(String email) {
-        boolean finded = false;
+    public void sendNewPassword(String email) throws UpdateException {
+        boolean found = false;
 
         // Get all users and compare the sended email to the user's email
         List<User> allUsers = getAllUsers();
         for (User user : allUsers) {
             // If the email are equals, update the user with the new password hashed in the database
             if (user.getEmail().equals(email)) {
-                finded = true;
+                found = true;
                 // Get the transmitter encrypted email from the config file
                 String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
                 // Get the transmitter encrypted password from the config file
@@ -84,10 +85,11 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
                 String newPass = hashNewPass.hashString(newPassword);
                 // Update the current user with the new password hashed
                 user.setPassword(newPass);
+                super.edit(user);
                 break;
             }
         }
-        if (!finded) {
+        if (!found) {
             logger.log(Level.INFO, email + " not found in the database");
         }
     }
