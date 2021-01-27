@@ -8,17 +8,24 @@ package myapplication.services;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.InternalServerErrorException;
 import myapplication.entity.Order;
 import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
+import myapplication.exceptions.CreateException;
 import myapplication.exceptions.ReadException;
+import myapplication.exceptions.UpdateException;
 
 /**
  *
  * @author 2dam
  */
-public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
+public abstract class OrderAbstractFacade extends AbstractFacade {
 
+    private Logger LOGGER = Logger.getLogger(OrderFacadeREST.class.getName());
+    
     public OrderAbstractFacade(Class<Order> entityClass) {
         super(entityClass);
     }
@@ -39,5 +46,18 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
             throw new ReadException(e.getMessage());
         }
     }
+   
+     public void create(OrderProduct entity) throws CreateException {
+        try {
+            super.edit(entity.getProduct());
+            super.create(entity);
+        } catch (CreateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        } catch (UpdateException ex) {
+            Logger.getLogger(OrderAbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
 }
