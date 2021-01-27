@@ -20,9 +20,9 @@ import myapplication.exceptions.UpdateException;
 
 /**
  *
- * @author 2dam
+ * @author Imanol
  */
-public abstract class OrderAbstractFacade extends AbstractFacade {
+public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
 
     private Logger LOGGER = Logger.getLogger(OrderFacadeREST.class.getName());
     
@@ -47,17 +47,6 @@ public abstract class OrderAbstractFacade extends AbstractFacade {
         }
     }
    
-     public void create(OrderProduct entity) throws CreateException {
-        try {
-            super.edit(entity.getProduct());
-            super.create(entity);
-        } catch (CreateException e) {
-            LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e.getMessage());
-        } catch (UpdateException ex) {
-            Logger.getLogger(OrderAbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
 
 }

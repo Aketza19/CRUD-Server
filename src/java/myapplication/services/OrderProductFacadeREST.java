@@ -30,7 +30,7 @@ import myapplication.exceptions.UpdateException;
 
 /**
  *
- * @author 2dam
+ * @author Imanol
  */
 @Stateless
 @Path("orderproduct")
