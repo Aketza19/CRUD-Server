@@ -55,7 +55,8 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     public void create(Order entity) {
         try {
             for(OrderProduct entityProduct : entity.getProducts()){
-                entityProduct.setOrder(entity);
+                Product product = new Product();
+                entityProduct.setProduct(product);
             }
             super.create(entity);
         } catch (CreateException e) {
