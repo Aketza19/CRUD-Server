@@ -43,7 +43,7 @@ public class Product implements Serializable {
      * Identification field for the product.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     /**
      * The weight of the product.
