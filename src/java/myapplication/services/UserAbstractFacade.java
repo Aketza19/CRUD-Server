@@ -5,17 +5,27 @@
  */
 package myapplication.services;
 
+import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.security.sasl.AuthenticationException;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.email.EmailService;
+import myapplication.utils.security.AsymmetricEncryption;
+import myapplication.utils.security.Hashing;
 
 /**
  *
  * @author 2dam
  */
 public abstract class UserAbstractFacade extends AbstractFacade<User> {
+
+    private static final ResourceBundle rb = ResourceBundle.getBundle("config.config");
+    private static final Logger logger = Logger.getLogger("myapplication.services.UserAbstractFacade");
 
     public UserAbstractFacade(Class<User> entityClass) {
         super(entityClass);
@@ -51,9 +61,32 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @param email The user email.
      */
     public void sendNewPassword(String email) {
-        // Call the sendNewPassword method with the transmitter credentials and user email.
-        // TODO: Coger las credenciales del emisor desde los ficheros encriptados.
-        EmailService.sendNewPassword("almazon.passw.restore@gmail.com", "AitanaWar88", email);
+        boolean finded = false;
+
+        // Get all users and compare the sended email to the user's email
+        List<User> allUsers = getAllUsers();
+        for (User user : allUsers) {
+            // If the email are equals, update the user with the new password hashed in the database
+            if (user.getEmail().equals(email)) {
+                finded = true;
+                // Get the transmitter encrypted email from the config file
+                String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
+                // Get the transmitter encrypted password from the config file
+                String transmitterPassword = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_PASS"));
+                // Call the sendNewPassword method with the transmitter credentials and user email and get the new password
+                String newPassword = EmailService.sendNewPassword(transmitterEmail, transmitterPassword, email);
+
+                // Convert the password in a hash String
+                Hashing hashNewPass = new Hashing();
+                String newPass = hashNewPass.hashString(newPassword);
+                // Update the current user with the new password hashed
+                user.setPassword(newPass);
+                break;
+            }
+        }
+        if (!finded) {
+            logger.log(Level.INFO, email + " not found in the database");
+        }
     }
 
     /**
@@ -64,12 +97,16 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @param email The user email.
      */
     public void recoverUserPassword(String email) {
-        // Get the user password by the query.
+        // Get the user password by the query and decrypt it
         String password = (String) getEntityManager().createNamedQuery("getPasswordByEmail")
                 .setParameter("email", email).getSingleResult();
+        password = AsymmetricEncryption.decryptString(password);
+        // Get the transmitter encrypted email from the config file
+        String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
+        // Get the transmitter encrypted password from the config file
+        String transmitterPassword = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_PASS"));
         // Call the sendNewPassword method with the transmitter credentials and user's email.
-        // TODO: Coger las credenciales del emisor desde los ficheros encriptados.
-        EmailService.recoverUserPassword("almazon.passw.restore@gmail.com", "AitanaWar88", email, password);
+        EmailService.recoverUserPassword(transmitterEmail, transmitterPassword, email, password);
     }
 
     /**
@@ -113,5 +150,37 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
             throw new UsernameAlreadyExistsException();
         }
         return userList;
+    }
+
+    /**
+     * Method to logging the given user. It checks if the given username exists
+     * in the database and compare the given password with the database password
+     * (the given password will be decrypt and hashed to compare with the hashed
+     * password in the database). If the credentials are correct, the method
+     * will return the user without the password.
+     *
+     * @param user The user trying to logging.
+     * @return The logged user without password.
+     * @throws AuthenticationException
+     */
+    public User loginUser(User user) throws AuthenticationException {
+        Hashing hashing = new Hashing();
+        List<User> listUser = this.findUsersByName(user.getUsername());
+        boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
+        if (correctPassword) {
+            User correctUser = listUser.get(0);
+            // Get the Date from the given logged user
+            Date currentDate = (Date) user.getLastAccess();
+            // Set the new Date to the logged user in the database
+            correctUser.setLastAccess(currentDate);
+            // Detach the correct user from the database to send back to the client
+            // without the password. If we don't detach the user, the changes we do
+            // will be affect in the database too
+            getEntityManager().detach(correctUser);
+            correctUser.setPassword(null);
+            return correctUser;
+        } else {
+            throw new AuthenticationException();
+        }
     }
 }

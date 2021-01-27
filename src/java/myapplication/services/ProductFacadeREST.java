@@ -23,6 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import myapplication.entity.Order;
+import myapplication.entity.OrderProduct;
 import myapplication.entity.Product;
 import myapplication.exceptions.CreateException;
 import myapplication.exceptions.DeleteException;
@@ -62,7 +63,11 @@ public class ProductFacadeREST extends ProductAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Product entity) {
            try {
+            Set<OrderProduct>orders = new HashSet<>();
+            orders.clear();
+            entity.setOrders(orders);
             super.edit(entity);
+            
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
