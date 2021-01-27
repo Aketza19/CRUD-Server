@@ -167,14 +167,18 @@ public class UserFacadeREST extends UserAbstractFacade {
     /**
      * Gets all the users in the database.
      *
-     * @param companyName
+     *
      * @return a list of Users.
      */
     @GET
     @Path("getAllUsers")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> getAllUsers() {
-        return super.getAllUsers();
+        List<User> userList = super.getAllUsers();
+//        userList.forEach((user) -> {
+//            user.setPassword("");
+//        });
+        return userList;
     }
 
     /**
