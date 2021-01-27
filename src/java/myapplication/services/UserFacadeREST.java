@@ -206,7 +206,7 @@ public class UserFacadeREST extends UserAbstractFacade {
     @Override
     @Path("sendNewPassword/{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void sendNewPassword(@PathParam("email") String email) {
+    public void sendNewPassword(@PathParam("email") String email) throws UpdateException {
         super.sendNewPassword(email);
     }
 
