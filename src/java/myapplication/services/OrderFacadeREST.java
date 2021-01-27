@@ -5,6 +5,7 @@
  */
 package myapplication.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 2dam
+ * @author Imanol
  */
 @Stateless
 @Path("order")
@@ -42,6 +43,7 @@ public class OrderFacadeREST extends OrderAbstractFacade {
 
     @PersistenceContext(unitName = "CRUD-ServerPU")
     private EntityManager em;
+    private Boolean exist= false;
 
     public OrderFacadeREST() {
         super(Order.class);
@@ -52,6 +54,11 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
         try {
+            for(OrderProduct entityProduct : entity.getProducts()){
+                Product product = new Product();
+                entityProduct.setProduct(product);
+                entityProduct.setOrder(entity);
+            }
             super.create(entity);
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
@@ -63,10 +70,23 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
         try {
-            super.edit(entity);
+            Order order = super.find(entity.getId());
+            for(OrderProduct entityProduct : entity.getProducts()){
+                for(OrderProduct findedProduct : order.getProducts()){
+                    if(entityProduct.getId().equals(findedProduct.getId())){
+                        findedProduct.setTotal_quantity(entityProduct.getTotal_quantity());
+                        findedProduct.setTotal_price(entityProduct.getTotal_price());
+                        entityProduct.setOrder(findedProduct.getOrder());
+                    }
+                }
+            }
+            super.edit(entity);            
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
+        } catch (ReadException ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
         }
     }
 
@@ -101,7 +121,8 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Set<Order> findAllOrders() {
      try {
-            return super.findAllOrders();
+            Set<Order> orders = super.findAllOrders();
+            return orders;
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
