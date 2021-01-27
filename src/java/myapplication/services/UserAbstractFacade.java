@@ -183,7 +183,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
             // without the password. If we don't detach the user, the changes we do
             // will be affect in the database too
             getEntityManager().detach(correctUser);
-            correctUser.setPassword(null);
+            correctUser.setPassword("");
             return correctUser;
         } else {
             throw new NotAuthorizedException("Error");

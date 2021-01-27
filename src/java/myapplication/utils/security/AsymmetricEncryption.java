@@ -6,6 +6,9 @@
 package myapplication.utils.security;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -19,6 +22,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
@@ -154,7 +158,7 @@ public class AsymmetricEncryption {
      * @return The content of the file.
      */
     public static String getFileContentAsString(String filename) {
-       try {
+        try {
             return new String(Files.readAllBytes(Paths.get(AsymmetricEncryption.class.getResource(filename).toURI())));
         } catch (URISyntaxException ex) {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
