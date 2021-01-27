@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.security.sasl.AuthenticationException;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotAuthorizedException;
 import myapplication.entity.User;
 import myapplication.exceptions.EmailAlreadyExistsException;
 import myapplication.exceptions.UsernameAlreadyExistsException;
@@ -27,6 +29,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
     private static final ResourceBundle rb = ResourceBundle.getBundle("config.config");
     private static final Logger logger = Logger.getLogger("myapplication.services.UserAbstractFacade");
 
+    
     public UserAbstractFacade(Class<User> entityClass) {
         super(entityClass);
     }
@@ -115,7 +118,13 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @return A list of users.
      */
     public List<User> getAllUsers() {
-        return getEntityManager().createNamedQuery("getAllUsers").getResultList();
+        
+        List<User> userList = getEntityManager().createNamedQuery("getAllUsers").getResultList();
+        userList.forEach((user) -> {
+            getEntityManager().detach(user);
+            user.setPassword("");
+        });
+        return userList;
     }
 
     /**
@@ -128,10 +137,8 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
     public List<User> findUserByEmail(String email) throws EmailAlreadyExistsException {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByEmail")
                 .setParameter("email", email).getResultList();
+        
 
-        if (!userList.isEmpty()) {
-            throw new EmailAlreadyExistsException();
-        }
         return userList;
     }
 
@@ -146,9 +153,6 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
         List<User> userList = getEntityManager().createNamedQuery("findUsersByUsername")
                 .setParameter("username", username).getResultList();
 
-        if (!userList.isEmpty()) {
-            throw new UsernameAlreadyExistsException();
-        }
         return userList;
     }
 
@@ -163,7 +167,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      * @return The logged user without password.
      * @throws AuthenticationException
      */
-    public User loginUser(User user) throws AuthenticationException {
+    public User loginUser(User user) {
         Hashing hashing = new Hashing();
         List<User> listUser = this.findUsersByName(user.getUsername());
         boolean correctPassword = hashing.compareHash(listUser.get(0).getPassword(), AsymmetricEncryption.decryptString(user.getPassword()));
@@ -180,7 +184,7 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
             correctUser.setPassword(null);
             return correctUser;
         } else {
-            throw new AuthenticationException();
+            throw new NotAuthorizedException("Error");
         }
     }
 }
