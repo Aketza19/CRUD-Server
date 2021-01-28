@@ -30,6 +30,7 @@ import myapplication.exceptions.ReadException;
 import myapplication.exceptions.UpdateException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import myapplication.entity.OrderProductId;
 
 /**
  *
@@ -54,12 +55,21 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
         try {
-            for(OrderProduct entityProduct : entity.getProducts()){
-                Product product = new Product();
-                entityProduct.setProduct(product);
-                entityProduct.setOrder(entity);
+            for(OrderProduct orderProducts : entity.getProducts()){
+                orderProducts.setOrder(entity);
             }
             super.create(entity);
+            
+            for(OrderProduct entityProduct : entity.getProducts()){
+                OrderProduct oProduct  = new OrderProduct();
+                oProduct.setId(new OrderProductId(entity.getId(),entityProduct.getProduct().getId()));
+                Product product = getEntityManager().find(Product.class, entityProduct.getProduct().getId());
+                oProduct.setProduct(product);
+                oProduct.setOrder(entity);
+                oProduct.setTotal_price(entityProduct.getTotal_price());
+                oProduct.setTotal_quantity(entityProduct.getTotal_quantity());
+                getEntityManager().persist(oProduct);
+            }       
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
