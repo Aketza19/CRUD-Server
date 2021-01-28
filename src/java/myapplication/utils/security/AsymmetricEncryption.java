@@ -5,12 +5,7 @@
  */
 package myapplication.utils.security;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +17,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
@@ -66,23 +60,6 @@ public class AsymmetricEncryption {
             Logger.getLogger(AsymmetricEncryption.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    public static byte[] getPublicFileKey() throws IOException {
-
-        InputStream keyfis = AsymmetricEncryption.class.getClassLoader()
-                .getResourceAsStream("myapplication/utils/security/public-key.key");
-
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        // read bytes from the input stream and store them in buffer
-        while ((len = keyfis.read(buffer)) != -1) {
-            // write bytes from the buffer into output stream
-            os.write(buffer, 0, len);
-        }
-        keyfis.close();
-        return os.toByteArray();
     }
 
     /**
