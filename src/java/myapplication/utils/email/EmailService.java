@@ -1,6 +1,7 @@
 package myapplication.utils.email;
 
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -25,6 +26,7 @@ import org.passay.PasswordGenerator;
  */
 public class EmailService {
 
+    private static final ResourceBundle rb = ResourceBundle.getBundle("config.config");
     // Server mail user & pass account
     private String user = null;
     private String pass = null;
@@ -77,7 +79,7 @@ public class EmailService {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", smtp_host);
         properties.put("mail.smtp.port", smtp_port);
-        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.ssl.enable", "false");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.ssl.trust", smtp_host);
         properties.put("mail.imap.partialfetch", false);
@@ -159,24 +161,28 @@ public class EmailService {
     }
 
     /**
-     * Method used to send a new password to the user. This method uses the
+     * Method used to send a new password to the user.This method uses the
      * generatePassayPassword() method to generate a secure and random password
      * to the user.
      *
      * @param transmitterEmail The transmitter email.
      * @param transmitterPassword The transmitter password.
      * @param receiverEmail The receiver email.
+     * @return The generated password.
      */
-    public static void sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
+    public static String sendNewPassword(String transmitterEmail, String transmitterPassword, String receiverEmail) {
+        String newPassword = generatePassayPassword();
         EmailService emailService = new EmailService(transmitterEmail,
-                transmitterPassword, "smtp.gmail.com", 465);
+                transmitterPassword, rb.getString("EMAIL_HOST"), Integer.parseInt(rb.getString("EMAIL_PORT")));
         try {
             emailService.sendMail(receiverEmail, "New password",
-                    generatePassayPassword());
+                    newPassword);
             System.out.println("Ok, mail sent!");
+            return newPassword;
         } catch (MessagingException e) {
             System.out.println("Doh! " + e.getMessage());
         }
+        return null;
     }
 
     /**
@@ -190,7 +196,7 @@ public class EmailService {
      */
     public static void recoverUserPassword(String transmitterEmail, String transmitterPassword, String receiverEmail, String userPassword) {
         EmailService emailService = new EmailService(transmitterEmail,
-                transmitterPassword, "smtp.gmail.com", 465);
+                transmitterPassword, rb.getString("EMAIL_HOST"), Integer.parseInt(rb.getString("EMAIL_PORT")));
         try {
             emailService.sendMail(receiverEmail, "Recover password",
                     userPassword);

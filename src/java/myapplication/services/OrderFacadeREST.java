@@ -34,7 +34,7 @@ import myapplication.entity.OrderProductId;
 
 /**
  *
- * @author 2dam
+ * @author Imanol
  */
 @Stateless
 @Path("order")
@@ -51,6 +51,7 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     }
 
     @POST
+    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Order entity) {
         try {
@@ -79,7 +80,7 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(Order entity) {
         try {
-            Order order = (Order)super.find(entity.getId());
+            Order order = super.find(entity.getId());
             for(OrderProduct entityProduct : entity.getProducts()){
                 for(OrderProduct findedProduct : order.getProducts()){
                     if(entityProduct.getId().equals(findedProduct.getId())){
@@ -118,7 +119,7 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Order find(@PathParam("id") Integer id) {
         try {
-            return (Order)super.find(id);
+            return super.find(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
