@@ -6,6 +6,16 @@
 
 2. The Glassfish server must be running on the port 8080.
 
+
+
+### Configure server for JSON responses:
+
+1. Download this jar from [org.eclipse.persistence.moxy.jar - Google Drive](https://drive.google.com/file/d/1-ubLLgVRjagJGzApejbumyQz-ZgQld1U/view?usp=sharing)
+
+2. Save and replace this file into ```[YOUR__GLASSFISH__SERVER__DIRECTORY]/glassfish/modules```
+
+3. You're now able to get JSON responses.
+
 ### Warnings
 
 1. Some of the requests sent by a browser will return 500 http codes because **the client side of the project uses RSA asymmetric encryption** (user login, user creation).
@@ -29,8 +39,6 @@
 **Aketza:** Product
 
 **Iker:** Company
-
-
 
 ## Dependencies:
 
