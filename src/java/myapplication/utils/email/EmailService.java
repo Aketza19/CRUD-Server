@@ -58,8 +58,8 @@ public class EmailService {
      * Sends the given <b>text</b> from the <b>sender</b> to the
      * <b>receiver</b>. In any case, both the <b>sender</b> and <b>receiver</b>
      * must exist and be valid mail addresses. The sender, mail's FROM part, is
-     * taken from this.user by default<br/>
-     * <br/>
+     * taken from this.user by default<br>
+     * <br>
      *
      * Note the <b>user</b> and <b>pass</b> for the authentication is provided
      * in the class constructor. Ideally, the <b>sender</b> and the <b>user</b>
