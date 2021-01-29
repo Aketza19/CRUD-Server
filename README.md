@@ -5,8 +5,6 @@
 1. The Glassfish 4.1 server **MUST** have the json exchange feature enabled and working, **otherwise you will not be able to log into the app**.
 
 2. The Glassfish server must be running on the port 8080.
-   
-   
 
 ### Warnings
 
@@ -20,7 +18,7 @@
 
 2. As we said in the requirements section, we need the json exchange feature enabled in Glassfish, so **the getPublicKey get request will only work if requested as JSON**.
 
-
+3. 
 
 #### Entities:
 
@@ -31,3 +29,11 @@
 **Aketza:** Product
 
 **Iker:** Company
+
+
+
+## Dependencies:
+
+1. Hibernate 4.3.x (JPA 2.1)
+
+2. Passay 1.6.0
