@@ -167,7 +167,6 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
      *
      * @param user The user trying to logging.
      * @return The logged user without password.
-     * @throws AuthenticationException
      */
     public User loginUser(User user) {
         Hashing hashing = new Hashing();

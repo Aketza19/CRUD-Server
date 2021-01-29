@@ -138,7 +138,7 @@ public class Product implements Serializable {
     /**
      * The relational field which contains the products in a order.
      *
-     * @param products the products to be set
+     * @param orders the products to be set
      */
     public void setOrders(Set<OrderProduct> orders) {
         this.orders = orders;
@@ -177,7 +177,7 @@ public class Product implements Serializable {
     /**
      * Compares two Products objects for equality.
      *
-     * @param object The other Product object to compare to.
+     * @param obj The other Product object to compare to.
      * @return true if ids are equals.
      */
     @Override    
