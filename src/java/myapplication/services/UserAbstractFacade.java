@@ -20,6 +20,7 @@ import myapplication.exceptions.UsernameAlreadyExistsException;
 import myapplication.utils.email.EmailService;
 import myapplication.utils.security.AsymmetricEncryption;
 import myapplication.utils.security.Hashing;
+import myapplication.utils.security.SymmetricEncryption;
 
 /**
  *
@@ -74,9 +75,9 @@ public abstract class UserAbstractFacade extends AbstractFacade<User> {
             if (user.getEmail().equals(email)) {
                 found = true;
                 // Get the transmitter encrypted email from the config file
-                String transmitterEmail = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_EMAIL"));
+                String transmitterEmail = SymmetricEncryption.decrypt(rb.getString("TRANSMITTER_EMAIL"));
                 // Get the transmitter encrypted password from the config file
-                String transmitterPassword = AsymmetricEncryption.decryptString(rb.getString("TRANSMITTER_PASS"));
+                String transmitterPassword = SymmetricEncryption.decrypt(rb.getString("TRANSMITTER_PASS"));
                 // Call the sendNewPassword method with the transmitter credentials and user email and get the new password
                 String newPassword = EmailService.sendNewPassword(transmitterEmail, transmitterPassword, email);
 
