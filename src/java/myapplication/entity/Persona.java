@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.DynamicUpdate;
@@ -19,16 +20,21 @@ import org.hibernate.annotations.DynamicUpdate;
  *
  * @author Mikel
  */
-@Inheritance
 @Entity
 @DynamicUpdate
 @Table(name = "herencia", schema = "almazon")
 @XmlRootElement
-public class Herencia implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Persona implements Serializable {
 
-    public Herencia(Long id) {
+    public Persona(Long id) {
         this.id = id;
     }
+
+    public Persona() {
+    }
+    
+    
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

@@ -49,15 +49,18 @@ import org.hibernate.annotations.DynamicUpdate;
     ,
     @NamedQuery(name = "getPasswordByEmail", query = "SELECT u.password FROM User u WHERE u.email = :email"),})
 @XmlRootElement
-public class User extends Herencia implements Serializable {
+public class User extends Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /**
-     * The auto generated id of the user.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    public User(Long id) {
+        super(id);
+    }
+    
+    public User (){
+        super();
+    }
+
     /**
      * The username of the user.
      */
@@ -225,17 +228,17 @@ public class User extends Herencia implements Serializable {
     }
 
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (super.getId() != null ? super.getId().hashCode() : 0);
         return hash;
     }
 
@@ -246,15 +249,13 @@ public class User extends Herencia implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
+
         return true;
     }
 
     @Override
     public String toString() {
-        return "myapplication.entity.User[ id=" + id + " ]";
+        return "myapplication.entity.User[ id=" + super.getId() + " ]";
     }
 
 }
