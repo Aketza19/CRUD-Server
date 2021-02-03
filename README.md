@@ -2,11 +2,9 @@
 
 ### Requirements to run the server:
 
-1. The Glassfish 4.1 server **MUST** have the json exchange feature enabled and working, **otherwise you will not be able to log into the app**.
+1. The Glassfish 4.1 server **MUST** have the json exchange feature enabled and working. If not, you still will be able to login, but the **public key will be retrieved locally.** 
 
 2. The Glassfish server must be running on the port 8080.
-
-
 
 ### Configure server for JSON responses:
 

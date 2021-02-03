@@ -127,23 +127,7 @@ public class UserFacadeREST extends UserAbstractFacade {
         }
     }
 
-    /**
-     * Gets a user by id.
-     *
-     * @param id
-     * @return A user.
-     */
-    @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User find(@PathParam("id") Long id) {
-        try {
-            return super.find(id);
-        } catch (ReadException ex) {
-            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+  
 
     /**
      * Returns the public key.

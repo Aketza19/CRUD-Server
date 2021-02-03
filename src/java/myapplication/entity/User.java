@@ -49,7 +49,7 @@ import org.hibernate.annotations.DynamicUpdate;
     ,
     @NamedQuery(name = "getPasswordByEmail", query = "SELECT u.password FROM User u WHERE u.email = :email"),})
 @XmlRootElement
-public class User implements Serializable {
+public class User extends Herencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**

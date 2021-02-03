@@ -35,6 +35,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(myapplication.services.CompanyFacadeREST.class);
+        resources.add(myapplication.services.HerenciaFacadeREST.class);
         resources.add(myapplication.services.OrderFacadeREST.class);
         resources.add(myapplication.services.OrderProductFacadeREST.class);
         resources.add(myapplication.services.ProductFacadeREST.class);
