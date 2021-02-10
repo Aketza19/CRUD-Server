@@ -38,10 +38,19 @@ public abstract class OrderAbstractFacade extends AbstractFacade<Order> {
         }
     }
 
-    public Set<Order> findOrdersByPrice(Double price) throws ReadException {
+    public Set<Order> findOrdersByPrice(Float price) throws ReadException {
         try {
             return new HashSet<Order>(getEntityManager().createNamedQuery("findOrdersByPrice")
                     .setParameter("price", price).getResultList());
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+    }
+    
+    public Set<Order> findOrdersByProduct(Integer yourID) throws ReadException {
+        try {
+            return new HashSet<Order>(getEntityManager().createNamedQuery("findOrdersByProduct")
+                    .setParameter("yourID", yourID).getResultList());
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

@@ -132,9 +132,21 @@ public class OrderFacadeREST extends OrderAbstractFacade {
     @GET
     @Path("order/{price}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Set<Order> findOrdersByPrice(@PathParam("price") Double price) {
+    public Set<Order> findOrdersByPrice(@PathParam("price") Float price) {
         try {
             return super.findOrdersByPrice(price);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("order/product/{productID}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Set<Order> findOrdersByProduct(@PathParam("yourID") Integer yourID) {
+        try {
+            return super.findOrdersByProduct(yourID);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
